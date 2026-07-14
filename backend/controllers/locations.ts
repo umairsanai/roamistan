@@ -24,7 +24,7 @@ export const getSearchedLocations = handleAsyncError(async (req: Request, res: R
     if (!isString(req.body.search))
         return next(new AppError("Incorrect Search Query", 400));
 
-    const ITEMS_PER_PAGE = 1;
+    const ITEMS_PER_PAGE = 10;
     const {search, page} = req.body;
     const searchWords = buildSearchPatterns(search);
 

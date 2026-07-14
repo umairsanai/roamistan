@@ -25,7 +25,8 @@ export const gracefulShutdown = (server: Server, pool: Pool) => {
     return async () => {
         try {
             server.close();
-            await pool.end();
+            if (!pool.ended)
+                await pool.end();
             console.log("Gracefully shutting down....");        
         } catch (err) {
             console.log("Ungracefully shutting down....");

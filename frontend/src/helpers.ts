@@ -18,8 +18,7 @@ export const goToAuthPage = () => window.location.href = "auth.html";
 export const goToDashboardPage = () => window.location.href = "dashboard.html";
 export const goToViewPage = (location_id: number) => window.location.href = `view.html?loc=${location_id}`;
 export const goToLocationPage = (location_id: number) => window.location.href = `location.html?loc=${location_id}`;
-
-
+export const goToSearchPage = (page: number, query: string) => window.location.href = `search.html?page=${1}&query=${query}`;
 
 
 
