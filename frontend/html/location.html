@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roamistan · </title>
+  <!-- Google Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=Montserrat:wght@600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="../css/location.css">
+</head>
+<body>
+
+  <!-- ===== TOP NAVBAR ===== -->
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="nav-brand-group">
+        <div class="brand">
+          <span class="material-symbols-outlined">landscape</span>
+          Roamistan
+        </div>
+        <div class="search-desktop">
+          <span class="material-symbols-outlined">search</span>
+          <input class="nav-search-bar" placeholder="Search destinations or tours..." type="text">
+        </div>
+      </div>
+      <div class="nav-actions-group">
+        <div class="nav-divider"></div>
+        <div class="nav-actions">
+          <button class="profile-btn"><span class="material-symbols-outlined">person</span> Profile</button>
+          <button class="logout-btn"><span class="material-symbols-outlined">logout</span> Logout</button>
+        </div>
+        <button class="mobile-menu-btn" aria-label="menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="main-grid">
+    <!-- Left column: Hero image -->
+    <div class="hero-col">
+      <div class="hero-image-wrapper">
+        <img 
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_Cqm-JL7P3HbmiiNgbAFd0N50RKvOdNV95f-iJ5isAIL2aBAZPWiK4W0kRNVCI7_B1G8lXWG1xbRczUu7fDTD_kYbJC8eDLDblX1iVfUX7RSa-CwKZyVFmXQauAj9WQPIvOnp7sfhJMC7Kar8K9FfONc-t3qT-L5kSyruxe5uidzurmFxZqcT6ygEW_el0_URVJZSC30qnr_Ul4NvFavqmBOFZsbBXhiHXM2JwjoS4FUPnRBY_rifbk65gR3aYISZEg-c54RSbPU" 
+          alt="Hunza Valley scenic view" 
+          class="hero-img"
+        >
+        <!-- gradient overlay -->
+        <div class="hero-overlay-gradient"></div>
+        <!-- glass badge -->
+        <div class="hero-badge">
+          <span class="material-symbols-outlined badge-icon">location_on</span>
+          <div>
+            <!-- <p class="badge-label">Elevation</p> -->
+            <p class="badge-value">Gilgit-Baltistan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right column: Details -->
+    <div class="details-col">
+      <!-- Header -->
+      <div class="details-header">
+        <div>
+          <h1 class="place-title">Hunza Valley</h1>
+          <div class="rating-row">
+            <span class="stars"></span>
+            <span class="reviews">4.9 (1,240 Reviews)</span>
+          </div>
+        </div>
+        <button class="bookmark-btn" aria-label="Bookmark">
+          <span class="material-symbols-outlined bookmark-icon">bookmark</span>
+        </button>
+      </div>
+
+      <!-- Description -->
+      <p class="description">
+        Often referred to as heaven on earth, the Hunza Valley is a mountainous valley in the 
+        Gilgit-Baltistan region of Pakistan. Enveloped in the grand Himalayas and the Karakoram 
+        mountain ranges, it offers breathtaking views, rich cultural heritage, and unparalleled serenity.
+      </p>
+
+      <!-- Coordinates -->
+      <div class="coords-box">
+        <span class="material-symbols-outlined coords-icon">explore</span>
+        <span class="coords-text">36.3167° N, 74.6500° E</span>
+      </div>
+
+      <!-- Primary action -->
+      <div class="action-wrapper">
+        <button class="tour-btn">
+          <span class="material-symbols-outlined">360</span>
+          <span>Start Virtual Tour</span>
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== FEATURED PACKAGES SECTION ===== -->
+  <section class="packages-section">
+    <h3 class="packages-headline">Featured Packages</h3>
+    <div class="packages-grid"></div>
+  </section>
+  <script type="module" src="../src/navbar.ts"></script>
+  <script type="module" src="../src/location.ts"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Roamistan · Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link href="../css/navbar.css" rel="stylesheet" >
+  <link href="../css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- TOP NAV -->
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="nav-brand-group">
+        <div class="brand">
+          <span class="material-symbols-outlined">landscape</span>
+          Roamistan
+        </div>
+        <div class="search-desktop">
+          <span class="material-symbols-outlined">search</span>
+          <input class="nav-search-bar" placeholder="Search destinations or tours..." type="text">
+        </div>
+      </div>
+      <div class="nav-actions-group">
+        <div class="nav-divider"></div>
+        <div class="nav-actions">
+          <button class="profile-btn"><span class="material-symbols-outlined">person</span> Profile</button>
+          <button class="logout-btn"><span class="material-symbols-outlined">logout</span> Logout</button>
+        </div>
+        <button class="mobile-menu-btn" aria-label="menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div>
+        <h1 class="font-display-lg text-on-surface">Fetchind Data...</h1>
+        <p class="font-body-lg text-on-surface-variant">Ready to discover the hidden gems of Pakistan?</p>
+      </div>
+    </section>
+
+    <!-- FAVORITES -->
+    <section>
+      <div class="section-header">
+        <h2 class="font-headline-lg text-on-surface">Your Favorites</h2>
+        <button class="see-all">See All <span class="material-symbols-outlined">arrow_forward</span></button>
+      </div>
+      <div class="favorites-scroll"></div>
+    </section>
+
+    <!-- LOCATIONS -->
+    <section>
+      <div class="section-header" style="margin-bottom: 24px;">
+        <h2 class="font-headline-lg text-on-surface">Locations Around You</h2>
+      </div>
+      <div class="locations-grid"></div>
+    </section>
+
+    <!-- TRENDING -->
+    <section>
+      <div class="section-header" style="margin-bottom: 24px;">
+        <h2 class="font-headline-lg text-on-surface">Trending in Pakistan</h2>
+      </div>
+      <div class="trending-grid"></div>
+    </section>
+  </main>
+  <script type="module" src="../src/dashboard.ts"></script>
+  <script type="module" src="../src/navbar.ts"></script>
+</body>
+</html>

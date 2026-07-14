@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Roamistan · Immersive Viewer</title>
+  <!-- Google Fonts & Material Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
+  <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css"/>
+  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="../css/view.css">
+  <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
+</head>
+<body>
+
+  <!-- ===== TOP NAVBAR ===== -->
+  <header class="top-nav">
+    <div class="nav-inner">
+      <div class="nav-brand-group">
+        <div class="brand">
+          <span class="material-symbols-outlined">landscape</span>
+          Roamistan
+        </div>
+        <div class="search-desktop">
+          <span class="material-symbols-outlined">search</span>
+          <input class="nav-search-bar" placeholder="Search destinations or tours..." type="text">
+        </div>
+      </div>
+      <div class="nav-actions-group">
+        <div class="nav-divider"></div>
+        <div class="nav-actions">
+          <button class="profile-btn"><span class="material-symbols-outlined">person</span> Profile</button>
+          <button class="logout-btn"><span class="material-symbols-outlined">logout</span> Logout</button>
+        </div>
+        <button class="mobile-menu-btn" aria-label="menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- main viewer -->
+  <div class="main-viewer">
+    <!-- panorama -->
+    <section class="panorama-wrap">
+      <div id="panorama-bg" class="panorama-bg"></div>
+      <div id="panorama-overlay" class="panorama-overlay"></div>
+
+      <!-- fullscreen -->
+      <button class="fullscreen-btn">
+        <span class="material-symbols-outlined">fullscreen</span>
+        <span class="fullscreen-label">Enter Fullscreen</span>
+      </button>
+
+      <!-- info card -->
+      <div class="info-card">
+        <h1 class="location-name">Fairy Meadows</h1>
+        <div class="sub-loc">
+          <span class="material-symbols-outlined">location_on</span>
+          <span class="location-state">Nanga Parbat Base Camp, Pakistan</span>
+        </div>
+        <div class="coord-badge">
+          <span class="material-symbols-outlined">my_location</span>35.3853° N, 74.5828° E</div>
+      </div>
+
+      <!-- right controls -->
+      <div class="controls-right">
+        <div class="zoom-group">
+          <button id="zoom-in-btn" title="Zoom In"><span class="material-symbols-outlined">add</span></button>
+          <div class="divider"></div>
+          <button id="zoom-out-btn" title="Zoom Out"><span class="material-symbols-outlined">remove</span></button>
+        </div>
+      </div>
+
+      <!-- arrows -->
+      <div id="left-btn" class="nav-arrows left">
+        <button><span class="material-symbols-outlined">chevron_left</span></button>
+      </div>
+      <div id="right-btn" class="nav-arrows right">
+        <button><span class="material-symbols-outlined">chevron_right</span></button>
+      </div>
+    </section>
+
+    <!-- sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-sticky">
+        <h3><span class="material-symbols-outlined">campaign</span> Local Experiences</h3>
+        <p>Curated tours near Fairy Meadows</p>
+      </div>
+      <div class="cards-container">
+
+
+        <!-- card 2 -->
+        <div class="tour-card">
+          <div class="tour-card-img">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA61iUCoJmDjaemM2Jx08CkNuB8IZSJPyOyf7UgUbVqx4oYaXVsPeQeTwEQLVBTfYm65orVZDQDZqnIk7BW1Y2BkyfftK4H4nSbmuZAeRW4cQt-AU0aL71qVNr7m4XOWCzc023YN0WNqULuqhHRJU5Slf8-6j7mH6v_HCkxecUEO9PWC2JMDJuf99b1Xcxu9-HAh9F7wJ2F4c-wWEj5pvgSNw-YhbxTCmxxyZl5pF_UW_5FwX3de-i58egL3jmEy4gBXXcONSQbBt0" alt="Eco lodge">
+            <div class="sponsor-tag"><span class="material-symbols-outlined">star</span> Featured</div>
+          </div>
+          <div class="card-body">
+            <div class="card-header">
+              <h4>Nanga Parbat Eco-Lodge</h4>
+              <div class="price-block">
+                <div class="price">$185</div>
+              </div>
+            </div>
+            <p class="card-desc">Wake up to unobstructed, majestic views of the 'Killer Mountain' right from your heated, premium cabin.</p>
+            <div class="agency-badge"><span class="material-symbols-outlined">verified</span></div>
+            <button class="card-btn card-btn-outline">View Details</button>
+          </div>
+        </div>
+
+        <div class="show-all">
+          <button>Show all local experiences</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <script type="module" src="../src/view.ts"></script>
+  <script type="module" src="../src/navbar.ts"></script>
+</body>
+</html>
