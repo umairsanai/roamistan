@@ -1,9 +1,11 @@
 /// <reference types="vite/client" />
-import { fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, showError } from "./helpers";
+import { fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, request, showError } from "./helpers";
 import type { LocationInfo, User } from "./types";
 
 let user: User;
 let bookmarks: LocationInfo[];
+
+const bookmarksListContainer = document.querySelector(".fav-list");
 
 try {
     user = await fetchMe();
@@ -26,7 +28,8 @@ function renderProfile(user: User) {
      
     nameElement.textContent = user.name;    
     emailElement.textContent = user.email;
-    profileImageElement.src = user.profile_url;
+    if (user.profile_url)
+        profileImageElement.src = user.profile_url;
     memberSinceValueElement.textContent = formatTimestampToMonthYear(user.created_at);
     addressValueElement.textContent = `${user.city}, ${user.country}`;
     toursCompletedValueElement.textContent = `${user.tours_completed} Virtual`;
@@ -34,8 +37,7 @@ function renderProfile(user: User) {
 }
 
 function renderBookmarks(locations: LocationInfo[]) {
-    const bookmarksListContainer = document.querySelector(".fav-list");
-    if (!bookmarksListContainer) return;
+    if (!bookmarksListContainer || !locations.length) return;
 
     bookmarksListContainer.innerHTML = "";
 
@@ -49,7 +51,7 @@ function renderBookmarks(locations: LocationInfo[]) {
             <div>
                 <div class="top-row">
                 <h3>${location.name}</h3>
-                <button class="bookmark-remove" title="Remove from bookmarks">
+                <button data-location-id=${location.location_id} class="bookmark-remove" title="Remove from bookmarks">
                     <span class="material-symbols-outlined icon-fill">bookmark_remove</span>
                 </button>
                 </div>
@@ -78,4 +80,24 @@ document.body.addEventListener("click", (e: Event) => {
     }
 
     showError("Location Can't be displayed. Refresh the page!");
+});
+
+bookmarksListContainer?.addEventListener("click", async (e) => {
+    if (!e.target) return;
+
+    const target = e.target as HTMLElement;
+    if (!target.closest(".bookmark-remove")) return;
+
+    const locationId = Number((target.closest(".bookmark-remove") as HTMLElement).dataset.locationId);
+    if (!locationId || Number.isNaN(locationId)) return;
+
+    try {
+        await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${locationId}`, {
+            method: "DELETE"
+        });
+        bookmarks = bookmarks.filter((location) => location.location_id !== locationId);
+        renderBookmarks(bookmarks);
+    } catch (error: any) {
+        showError(error.message);
+    }
 });

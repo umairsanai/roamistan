@@ -1,9 +1,11 @@
 /// <reference types="vite/client" />
-import { fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, showError } from "./helpers";
+import { fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, request, showError } from "./helpers";
 import type { Ad, LocationInfo, User } from "./types";
 
 const startTourButton = document.querySelector(".tour-btn");
 const adsListContainer = document.querySelector(".packages-grid");
+const bookmarkButton = document.querySelector(".bookmark-btn");
+const bookmarkIcon = document.querySelector(".bookmark-icon") as HTMLElement;
 
 let location: LocationInfo | null;
 let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
@@ -23,13 +25,18 @@ try {
 }
 
 
+function changeBookmarkIcon(flag: number) {
+    if (!bookmarkIcon) return;
+    bookmarkIcon.classList.toggle("icon-fill", Boolean(flag));
+}
+
+
 function renderLocation(location: LocationInfo) {
 
     document.title += ` ${location.name}`;
     const locationNameElement = document.querySelector(".place-title") as HTMLElement;
     const starsContainer = document.querySelector(".stars") as HTMLElement;
     const reviewsElement = document.querySelector(".reviews") as HTMLElement;
-    const bookmarkIcon = document.querySelector(".bookmark-icon") as HTMLElement;
     const descriptionElement = document.querySelector(".description") as HTMLElement;
     const cordinatesElement = document.querySelector(".coords-text") as HTMLElement;
     const stateElement = document.querySelector(".badge-value") as HTMLElement;
@@ -47,7 +54,7 @@ function renderLocation(location: LocationInfo) {
     
     locationNameElement.textContent = location.name;
     imageElement.src = location.cover_image_url;
-    bookmarkIcon.classList.toggle("icon-fill", Boolean(location.is_bookmarked));
+    changeBookmarkIcon(location.is_bookmarked);
     descriptionElement.textContent = location.description;
     reviewsElement.textContent = `${formatRating(rating)} (${location.reviews_count} Reviews)`;
     cordinatesElement.textContent = formatCordinates(Number(location.coordinate_x), Number(location.coordinate_y));
@@ -77,8 +84,9 @@ function renderAds() {
 
 // ================= EVENT LISTENERS ====================
 
+if (!Number.isNaN(location_id))
+    startTourButton?.addEventListener("click", goToViewPage.bind(null, location_id));
 
-startTourButton?.addEventListener("click", goToViewPage.bind(null, location_id));
 adsListContainer?.addEventListener("click", (event: Event) => {
     const target = event?.target;
     if (!target || !(target as HTMLElement).closest(".package-card")) return;
@@ -87,4 +95,23 @@ adsListContainer?.addEventListener("click", (event: Event) => {
     const redirectUrl = topElement.dataset.redirectUrl;
     if (redirectUrl)
         window.location.href = redirectUrl;
+});
+
+bookmarkButton?.addEventListener("click", async () => {
+    if (Number.isNaN(location_id) || !location) return;
+    try {
+        if (location.is_bookmarked) {
+            await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${location_id}`, {
+                method: "DELETE"
+            });            
+        } else {
+            await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${location_id}`, {
+                method: "POST"
+            });
+        }
+        location.is_bookmarked = Number(!location.is_bookmarked);
+        changeBookmarkIcon(location.is_bookmarked);
+    } catch (error: any) {
+        showError(error.message);
+    }
 });

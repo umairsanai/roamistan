@@ -28,7 +28,7 @@ try {
 
 function renderBookmarks(locations: LocationInfo[]) {
     const bookmarksContainer = document.querySelector(".favorites-scroll");
-    if (!bookmarksContainer) return;
+    if (!bookmarksContainer || !locations.length) return;
 
     bookmarksContainer.innerHTML = "";
 
@@ -50,7 +50,7 @@ function renderBookmarks(locations: LocationInfo[]) {
 
 function renderLocationsAround(locations: LocationInfo[]) {
     const locationsAroundContainer = document.querySelector(".locations-grid");    
-    if (!locationsAroundContainer) return;
+    if (!locationsAroundContainer || !locations.length) return;
 
     locationsAroundContainer.innerHTML = "";
     locations.forEach(location => {
@@ -74,7 +74,7 @@ function renderLocationsAround(locations: LocationInfo[]) {
 
 function renderTrendingLocations(locations: LocationInfo[]) {
     const trendingLocationsContainer = document.querySelector(".trending-grid");    
-    if (!trendingLocationsContainer) return;
+    if (!trendingLocationsContainer || !locations.length) return;
 
     trendingLocationsContainer.innerHTML = "";
     locations.forEach((location, i) => {

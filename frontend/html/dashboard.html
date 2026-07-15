@@ -58,7 +58,13 @@
         <h2 class="font-headline-lg text-on-surface">Your Favorites</h2>
         <button class="see-all">See All <span class="material-symbols-outlined">arrow_forward</span></button>
       </div>
-      <div class="favorites-scroll"></div>
+      <div class="favorites-scroll">
+        <div class="empty-state-card empty-state-card--favorites">
+          <span class="material-symbols-outlined empty-state-icon">bookmark</span>
+          <h3>No bookmarks yet</h3>
+          <p>Saved places will appear here once you add them.</p>
+        </div>
+      </div>
     </section>
 
     <!-- LOCATIONS -->
@@ -66,7 +72,13 @@
       <div class="section-header" style="margin-bottom: 24px;">
         <h2 class="font-headline-lg text-on-surface">Locations Around You</h2>
       </div>
-      <div class="locations-grid"></div>
+      <div class="locations-grid">
+        <div class="empty-state-card">
+          <span class="material-symbols-outlined empty-state-icon">travel_explore</span>
+          <h3>No locations nearby</h3>
+          <p>Locations around you will show up here when they are available.</p>
+        </div>
+      </div>
     </section>
 
     <!-- TRENDING -->
@@ -74,7 +86,13 @@
       <div class="section-header" style="margin-bottom: 24px;">
         <h2 class="font-headline-lg text-on-surface">Trending in Pakistan</h2>
       </div>
-      <div class="trending-grid"></div>
+      <div class="trending-grid">
+        <div class="empty-state-card">
+          <span class="material-symbols-outlined empty-state-icon">local_fire_department</span>
+          <h3>No trending locations</h3>
+          <p>Trending destinations will appear here when the feed is ready.</p>
+        </div>
+      </div>
     </section>
   </main>
   <script type="module" src="../src/dashboard.ts"></script>

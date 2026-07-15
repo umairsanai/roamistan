@@ -8,6 +8,7 @@ const loginModeBtn = document.getElementById('btnLogin');
 const signupModeBtn = document.getElementById('btnSignup');
 const loginSubmitBtn = document.querySelector(".login-submit-btn");
 const signupSubmitBtn = document.querySelector(".signup-submit-btn");
+const oauthButton = document.querySelector(".btn-oauth");
 const oppositeMode = new Map([["signup", "login"], ["login", "signup"]]);
 let mode = "login";
 
@@ -48,7 +49,20 @@ async function validateLogin(e: Event) {
 
 async function validateSignup(e: Event) {
     e.preventDefault();
-    return true;
+
+    const name = (document.getElementById("signupName") as HTMLInputElement).value;
+    const email = (document.getElementById("signupEmail") as HTMLInputElement).value;
+    const city = (document.querySelector('input[name="city"]') as HTMLInputElement).value;
+    const country = (document.querySelector('input[name="country"]') as HTMLInputElement).value;
+    const password = (document.getElementById("signupPassword") as HTMLInputElement).value;
+
+    await request(`${import.meta.env.VITE_API_URL}/auth/signup`, {
+        method: "POST",
+        body: JSON.stringify({ name, email, city, country, password}),
+        headers: {
+            "Content-type": "application/json"
+        }
+    });
 }
 
 async function loginEventHandler(e: Event) {
@@ -70,11 +84,6 @@ async function signupEventHandler(e: Event) {
 }
 
 
-
-
-
-
-
 // ==========    EVENT LISTENERS    ==========
 
 
@@ -86,5 +95,8 @@ signupSubmitBtn?.addEventListener("click", signupEventHandler);
 document.body.addEventListener("keydown", async (e: KeyboardEvent) => {
     if (e.code !== "Enter") return;
     mode === "signup" ? await signupEventHandler(e) : await loginEventHandler(e);
+});
+oauthButton?.addEventListener("click", () => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/login`;
 });
 initializeCustomSelects();

@@ -32,7 +32,7 @@ export type User = {
     country: string
     created_at: string
     tours_completed: number
-    profile_url: string
+    profile_url: string | null
 }
 
 export type Image3D = {

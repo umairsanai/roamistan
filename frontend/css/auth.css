@@ -150,6 +150,10 @@ body {
   gap: 1.5rem;
 }
 
+#formLogin {
+  gap: 1rem;
+}
+
 .form.hidden {
   display: none;
 }
@@ -368,7 +372,7 @@ body {
 .divider {
   display: flex;
   align-items: center;
-  margin: 1.5rem 0;
+  margin: 0.25rem 0;
 }
 
 .line {
@@ -379,9 +383,10 @@ body {
 .divider-text {
   margin: 0 1rem;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  line-height: 16px;
+  line-height: 1;
+  letter-spacing: 0.14em;
   color: #404a3b;
 }
 
@@ -390,35 +395,51 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+  margin-top: -0.1rem;
 }
 
 .btn-oauth {
   width: 100%;
+  min-height: 48px;
   background: #ffffff;
-  border: 2px solid #f1eee7;
-  border-radius: 0.5rem;
-  padding: 0.7rem 1rem;
+  border: 1.5px solid #dadfd4;
+  border-radius: 9999px;
+  padding: 0.8rem 1.25rem;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  line-height: 20px;
+  letter-spacing: 0.01em;
+  line-height: 1;
   color: #1c1c18;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
+  gap: 0.8rem;
   cursor: pointer;
-  transition: background 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
 }
 
 .btn-oauth:hover {
-  background: #f6f3ec;
+  background: #f8faf7;
+  border-color: #c8d0c4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  transform: translateY(-1px);
+}
+
+.btn-oauth:active {
+  transform: translateY(0);
+}
+
+.btn-oauth:focus-visible {
+  outline: none;
+  border-color: #3a5f94;
+  box-shadow: 0 0 0 3px rgba(58, 95, 148, 0.18);
 }
 
 .btn-oauth img {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
   flex-shrink: 0;
 }

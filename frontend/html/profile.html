@@ -54,7 +54,7 @@
       <!-- Profile card -->
       <div class="profile-card">
         <div class="avatar">
-          <img class="profile-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfFsdb_LooeF6qHcqlfpMFOTWermM7bZTUbHUD0pHV2E40ptXqBTVhEMnfDjRyNkqEfa-XO9cDxDN3v8b1Pz6mKSyXSEbrC4jW5uNOLCN_hfgqaNlzhjYbVc9XAnV648AfrCptZWSUHBe6KNLIvkElBB0wD265DQ6JMwNAhoxawCZe8wyAXQw30APSqCJ0i7qL4uY2TYKywcZnJKh9n5xtXCWDKfmzsfFrBbswaOvUB-Q3FwfnUAsIfVnW--ZoUeHtuaw1kVVpNx4" alt="Aliya Khan profile">
+          <img class="profile-img" src="../assets/default-profile.svg" alt="Default profile avatar">
           <button class="overlay-btn">
             <span class="material-symbols-outlined" style="font-size:1rem;">photo_camera</span>
           </button>
@@ -90,8 +90,13 @@
           <p>Your curated list of destinations to explore next.</p>
         </div>
       </div>
-
-      <div class="fav-list"></div>
+      <div class="fav-list">
+        <div class="fav-empty-state">
+          <span class="material-symbols-outlined fav-empty-icon">bookmark</span>
+          <h3>No bookmarks yet</h3>
+          <p>Your bookmarked locations will appear here once you save them.</p>
+        </div>
+      </div>
     </section>
   </main>
   <script type="module" src="../src/navbar.ts"></script>

@@ -75,8 +75,11 @@ export const protect = handleAsyncError(async (req: Request, res: Response, next
 export const signup = handleAsyncError(async (req: Request, res: Response, next: NextFunction) => {
     let {name,  email, city, country, password} = req.body as SignupRequestBody;
 
-    if (!name || !name.trim().length || !email || !Validator.isEmail(email) || !city || !country || !password)
+    if (!name || !name.trim().length || !email || !city || !country || !password) 
         return next(new AppError("Incomplete Data for Signup!", 400));
+
+    if (!Validator.isEmail(email)) 
+        return next(new AppError("Please provide a Valid Email!", 400));
 
     password = await hashPassword(password);
 
@@ -103,21 +106,21 @@ export const login = handleAsyncError(async (req: Request, res: Response, next: 
 });
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    callbackURL: `${process.env.API_URL!}/auth/google/verify`
+        clientID: process.env.GOOGLE_CLIENT_ID!,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+        callbackURL: `${process.env.API_URL!}/auth/google/verify`
     },
     function(accessToken, refreshToken, profile, callback) {
         return callback(null, {
-        user_id: -1,
-        name: "",
-        email: "",
-        city: "",
-        country: "",
-        profile_url: "",
-        googleAccessToken: accessToken,
-        googleRefreshToken: refreshToken,
-        googleProfile: profile
+            user_id: -1,
+            name: "",
+            email: "",
+            city: "",
+            country: "",
+            profile_url: "",
+            googleAccessToken: accessToken,
+            googleRefreshToken: refreshToken,
+            googleProfile: profile
         });
     }
 ));
@@ -145,7 +148,7 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
         secure: process.env.MODE === "prod"
     };
 
-    // BUG: LOGOUT ISN'T WORKING CORRECTLY
+    // TEST: LOGOUT IN PRODUCTION
 
     res.clearCookie("roamistan-login-token", cookieOptions);
     res.clearCookie("roamistan-google-access-token", cookieOptions);
