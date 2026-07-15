@@ -22,7 +22,8 @@ try {
     renderTrendingLocations(trendingLocations);
 } catch (error: any) {
     showError(error.message);
-    goToAuthPage();
+    if (error.message.toLowerCase().includes("not logged in"))
+        goToAuthPage();
 }
 
 

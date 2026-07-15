@@ -3,6 +3,8 @@ import { fetchSearchedLocations, formatCordinates, formatRating, goToAuthPage, g
 import { fetchAndRenderLocations, updateURL } from "./search";
 import { LocationInfo } from "./types";
 
+insertNavbarInBody();
+
 const SEARCH_DELAY = 0.5 * 1000;   // milliseconds;
 const brandContainer = document.querySelector(".brand");
 const profileBtn = document.querySelector(".profile-btn");
@@ -105,6 +107,42 @@ async function logoutUser() {
 
 
 
+
+
+function insertNavbarInBody() {
+
+    document.body.insertAdjacentHTML("afterbegin", `
+    <header class="top-nav">
+        <div class="nav-inner">
+            <div class="nav-brand-group">
+            <div class="brand">
+                <span class="material-symbols-outlined">landscape</span>
+                Roamistan
+            </div>
+            <div class="search-desktop">
+                <span class="material-symbols-outlined">search</span>
+                <input class="nav-search-bar" placeholder="Search destinations or tours..." type="text">
+                <div class="search-results-panel" aria-label="Search results">
+                <div class="search-results-empty">Start typing to see matching locations.</div>
+                <div class="search-results-list"></div>
+                <button class="search-results-more" type="button">View More --&gt;</button>
+                </div>
+            </div>
+            </div>
+            <div class="nav-actions-group">
+            <div class="nav-divider"></div>
+            <div class="nav-actions">
+                <button class="profile-btn"><span class="material-symbols-outlined">person</span> Profile</button>
+                <button class="logout-btn"><span class="material-symbols-outlined">logout</span> Logout</button>
+            </div>
+            <button class="mobile-menu-btn" aria-label="menu">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            </div>
+        </div>
+    </header>`);
+
+};
 
 
 // ==========    EVENT LISTENERS    ==========

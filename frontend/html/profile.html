@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile · Roamistan</title>
-  <!-- Google Fonts & Material Symbols (kept as CDN) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
@@ -15,37 +14,6 @@
   </style>
 </head>
 <body>
-  <!-- ===== TOP NAVBAR ===== -->
-  <header class="top-nav">
-    <div class="nav-inner">
-      <div class="nav-brand-group">
-        <div class="brand">
-          <span class="material-symbols-outlined">landscape</span>
-          Roamistan
-        </div>
-        <div class="search-desktop">
-          <span class="material-symbols-outlined">search</span>
-          <input class="nav-search-bar" placeholder="Search destinations or tours..." type="text">
-          <div class="search-results-panel" aria-label="Search results">
-            <div class="search-results-empty">Start typing to see matching locations.</div>
-            <div class="search-results-list"></div>
-            <button class="search-results-more" type="button">View More --&gt;</button>
-          </div>
-        </div>
-      </div>
-      <div class="nav-actions-group">
-        <div class="nav-divider"></div>
-        <div class="nav-actions">
-          <button class="profile-btn"><span class="material-symbols-outlined">person</span> Profile</button>
-          <button class="logout-btn"><span class="material-symbols-outlined">logout</span> Logout</button>
-        </div>
-        <button class="mobile-menu-btn" aria-label="menu">
-          <span class="material-symbols-outlined">menu</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
   <!-- ====== MAIN DASHBOARD ====== -->
   <main class="dashboard">
 
@@ -55,7 +23,7 @@
       <div class="profile-card">
         <div class="avatar">
           <img class="profile-img" src="../assets/default-profile.svg" alt="Default profile avatar">
-          <button class="overlay-btn">
+          <button class="overlay-btn" type="button">
             <span class="material-symbols-outlined" style="font-size:1rem;">photo_camera</span>
           </button>
         </div>
@@ -99,6 +67,7 @@
       </div>
     </section>
   </main>
+  <input id="profilePictureInput" type="file" accept="image/*" hidden>
   <script type="module" src="../src/navbar.ts"></script>
   <script type="module" src="../src/profile.ts"></script>
 </body>

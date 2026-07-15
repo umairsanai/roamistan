@@ -71,7 +71,7 @@ function renderAds() {
                 </div>
                 <p class="card-desc">${ad.description}</p>
                 ${ad.is_verified 
-                    ? `<div class="agency-badge"><span class="material-symbols-outlined">verified</span></div>`
+                    ? `<div class="agency-badge"><span class="material-symbols-outlined">verified</span>VERIFIED</div>`
                     : `` 
                 }
                 <button data-ad-url="${ad.redirect_url}" class="card-btn">Book Experience <span class="material-symbols-outlined">arrow_forward</span></button>

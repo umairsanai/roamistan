@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ErrorRequestHandler } from "express-serve-static-core";
+import { MulterError } from "multer";
 import { DatabaseError } from "pg";
 
 export class AppError extends Error {
@@ -29,7 +30,7 @@ export const errorMiddleware: ErrorRequestHandler = (error: Error | AppError, re
     if (process.env.MODE === "prod") {
         sendProductionError(error, res);
     } else {
-        console.error(error.message);
+        console.error(error);
         sendDevelopementError(error, res);
     }
 }
@@ -49,10 +50,15 @@ function sendProductionError(error: Error | AppError, res: Response) {
                 status: "fail",
                 message: "An account has already occupied this email. Please use another one."
             }];
+        } else if (error instanceof MulterError && error.code === "LIMIT_FILE_SIZE") {
+            [errorStatusCode, errorObject] = [400, {
+                status: "error",
+                message: "Your image size is more than 2 MB. Please upload an image of size under 2 MB"
+            }];
         } else {
             [errorStatusCode, errorObject] = [500, {
-                    status: "error",
-                    message: "Internal Server Wrong. Something went wrong."
+                status: "error",
+                message: "Internal Server Wrong. Something went wrong."
             }];
         }
     }
