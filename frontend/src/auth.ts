@@ -70,7 +70,7 @@ async function loginEventHandler(e: Event) {
         await validateLogin(e);
         return goToDashboardPage();
     } catch (error: any) {
-        showError(error);
+        showError(error.message);
     }
 }
 
@@ -79,7 +79,7 @@ async function signupEventHandler(e: Event) {
         await validateSignup(e);
         return goToDashboardPage();
     } catch (error: any) {
-        showError(error);
+        showError(error.message);
     }
 }
 

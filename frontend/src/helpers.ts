@@ -128,6 +128,50 @@ export async function fetchTourImage(tourImageId: number) {
 // ERROR MESSAGE
 
 
-export function showError(message: string) {
-    alert(`Error: ${message}`);
+const DISPLAY_MS = 2000;
+const ANIMATION_MS = 280;
+
+let hideTimer: number | null = null;
+let removeTimer: number | null = null;
+
+export function showError(message: any) {
+    console.log(message);
+
+    message = (typeof message === 'string') ? message : String('An unexpected error occurred.');
+
+    let host = document.getElementById('global-error-toast');
+    if (!host) {
+        host = document.createElement('div');
+        host.id = 'global-error-toast';
+        host.className = 'error-toast-shell';
+        host.setAttribute('role', 'alert');
+        document.body.append(host);
+    }
+
+    host.insertAdjacentHTML('beforeend', `
+        <article class="error-toast-card">
+            <span class="material-symbols-outlined error-toast-icon">error</span>
+            <div class="error-toast-text-wrap">
+            <p class="error-toast-title">Request Failed</p>
+            <p class="error-toast-message">${message}</p>
+            </div>
+            <span class="error-toast-progress" style="--error-duration: ${DISPLAY_MS}ms"></span>
+        </article>
+    `);
+
+    // Clear old timers
+    if (hideTimer) clearTimeout(hideTimer);
+    if (removeTimer) clearTimeout(removeTimer);
+
+    // Show
+    host.classList.remove('is-hiding');
+    void host.offsetWidth; // force reflow
+    host.classList.add('is-visible');
+
+    hideTimer = setTimeout(() => {
+        host.classList.remove('is-visible');
+        host.classList.add('is-hiding');
+    }, DISPLAY_MS);
+
+    removeTimer = setTimeout(host.remove, DISPLAY_MS + ANIMATION_MS);
 }

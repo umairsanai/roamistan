@@ -59,8 +59,6 @@ function renderSearchedLocations(locations: LocationInfo[]) {
 }
 
 
-
-
 function hideEmptyResultCard() {
     if (emptyResultCardElement)
         (emptyResultCardElement as HTMLElement).style.display = "none";
@@ -98,17 +96,6 @@ async function logoutUser() {
     goToAuthPage();
 }
 
-
-
-
-
-
-
-
-
-
-
-
 function insertNavbarInBody() {
 
     document.body.insertAdjacentHTML("afterbegin", `
@@ -143,6 +130,12 @@ function insertNavbarInBody() {
     </header>`);
 
 };
+
+
+
+
+
+
 
 
 // ==========    EVENT LISTENERS    ==========

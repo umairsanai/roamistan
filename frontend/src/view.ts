@@ -13,24 +13,22 @@ const viewerContentContainer = document.querySelector(".viewer-content");
 const notFoundCard = document.querySelector(".not-found-card");
 
 
-if (window.location.pathname.includes("view")) {
-    try {
-        if (!Number.isNaN(location_id)) {
-            location = await fetchLocation(location_id);
-            if (location) {
-                ads = await fetchAds(location.location_id);
-                renderLocationDetails()
-                renderAds();    
-            } else {
-                viewerContentContainer?.classList.add("hidden");
-                notFoundCard?.classList.remove("hidden");
-            }
+try {
+    if (!Number.isNaN(location_id)) {
+        location = await fetchLocation(location_id);
+        if (location) {
+            ads = await fetchAds(location.location_id);
+            renderLocationDetails()
+            renderAds();    
+        } else {
+            viewerContentContainer?.classList.add("hidden");
+            notFoundCard?.classList.remove("hidden");
         }
-    } catch (error: any) {
-        showError(error.message);
-        if (error.message.toLowerCase().includes("not logged in"))
-            goToAuthPage();  
     }
+} catch (error: any) {
+    showError(error.message);
+    if (error.message.toLowerCase().includes("not logged in"))
+        goToAuthPage();  
 }
 
 

@@ -14,25 +14,23 @@ let location: LocationInfo | null;
     let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
 let ads: Ad[] | null;
 
-if (window.location.pathname.includes("location")) {
-    try {
-        if (!Number.isNaN(location_id)) {
-            location = await fetchLocation(location_id);
-            if (location) {
-                ads = await fetchAds(location.location_id);
-                renderLocation();
-                renderAds();
-            } else {
-                console.log(locationContentContainer, notFoundCard);
-                locationContentContainer?.classList.add("hidden");
-                notFoundCard?.classList.remove("hidden");
-            }
+try {
+    if (!Number.isNaN(location_id)) {
+        location = await fetchLocation(location_id);
+        if (location) {
+            ads = await fetchAds(location.location_id);
+            renderLocation();
+            renderAds();
+        } else {
+            console.log(locationContentContainer, notFoundCard);
+            locationContentContainer?.classList.add("hidden");
+            notFoundCard?.classList.remove("hidden");
         }
-    } catch (error: any) {
-        showError(error.message);
-        if (error.message.toLowerCase().includes("not logged in"))
-            goToAuthPage();
     }
+} catch (error: any) {
+    showError(error.message);
+    if (error.message.toLowerCase().includes("not logged in"))
+        goToAuthPage();
 }
 
 

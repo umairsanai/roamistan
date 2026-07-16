@@ -58,7 +58,7 @@ async function uploadProfilePictureHandler() {
     try {
         await uploadProfilePicture(file);
     } catch (error: any) {
-        showError(error);
+        showError(error.message);
     } finally {
         profilePictureInput.value = "";
     }
