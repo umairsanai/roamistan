@@ -6,23 +6,35 @@ const startTourButton = document.querySelector(".tour-btn");
 const adsListContainer = document.querySelector(".packages-grid");
 const bookmarkButton = document.querySelector(".bookmark-btn");
 const bookmarkIcon = document.querySelector(".bookmark-icon") as HTMLElement;
+const locationContentContainer = document.querySelector(".location-content");
+const notFoundCard = document.querySelector(".not-found-card");
+
 
 let location: LocationInfo | null;
-let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
-let ads: Ad[];
+    let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
+let ads: Ad[] | null;
 
-try {
-    if (!Number.isNaN(location_id)) {
-        location = await fetchLocation(location_id);
-        ads = await fetchAds(location.name, location.description);
-        renderLocation(location);
-        renderAds();
+if (window.location.pathname.includes("location")) {
+    try {
+        if (!Number.isNaN(location_id)) {
+            location = await fetchLocation(location_id);
+            if (location) {
+                ads = await fetchAds(location.name, location.description);
+                renderLocation();
+                renderAds();
+            } else {
+                console.log(locationContentContainer, notFoundCard);
+                locationContentContainer?.classList.add("hidden");
+                notFoundCard?.classList.remove("hidden");
+            }
+        }
+    } catch (error: any) {
+        showError(error.message);
+        if (error.message.toLowerCase().includes("not logged in"))
+            goToAuthPage();
     }
-} catch (error: any) {
-    showError(error.message);
-    if (error.message.toLowerCase().includes("not logged in"))
-        goToAuthPage();
 }
+
 
 
 function changeBookmarkIcon(flag: number) {
@@ -31,9 +43,10 @@ function changeBookmarkIcon(flag: number) {
 }
 
 
-function renderLocation(location: LocationInfo) {
+function renderLocation() {
+    if (!location) return;
 
-    document.title += ` ${location.name}`;
+    document.title = `Roamistan · ${location.name}`;
     const locationNameElement = document.querySelector(".place-title") as HTMLElement;
     const starsContainer = document.querySelector(".stars") as HTMLElement;
     const reviewsElement = document.querySelector(".reviews") as HTMLElement;
@@ -54,6 +67,7 @@ function renderLocation(location: LocationInfo) {
     
     locationNameElement.textContent = location.name;
     imageElement.src = location.cover_image_url;
+    imageElement.alt = location.name;
     changeBookmarkIcon(location.is_bookmarked);
     descriptionElement.textContent = location.description;
     reviewsElement.textContent = `${formatRating(rating)} (${location.reviews_count} Reviews)`;
@@ -62,7 +76,7 @@ function renderLocation(location: LocationInfo) {
 }
 
 function renderAds() {
-    if (!adsListContainer) return;
+    if (!adsListContainer || !ads || !ads.length) return;
 
     adsListContainer.innerHTML = "";
     ads.forEach((ad) => {

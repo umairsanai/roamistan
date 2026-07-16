@@ -1,26 +1,16 @@
 /// <reference types="vite/client" />
-import { fetchSearchedLocations, goToAuthPage, goToLocationPage, showError } from "./helpers";
+import { fetchSearchedLocations, goToAuthPage, goToLocationPage, showError, updateSearchPageURL } from "./helpers";
 import { LocationInfo } from "./types";
 
-let total_pages: number;
 const paginationContainer = document.querySelector(".pagination");
+const searchContentContainer = document.querySelector(".search-content");
+const notFoundCard = document.querySelector(".not-found-card");
+
+let total_pages: number;
 let searchedLocations: LocationInfo[] | null;
 
-
-
-try {
+if (window.location.pathname.includes("search")) {
     await fetchAndRenderLocations();
-} catch (error: any) {
-    showError(error.message);
-    if (error.message.toLowerCase().includes("not logged in"))
-        goToAuthPage();
-}
-
-
-
-export function updateURL(page: number, query: string) {
-  const newUrl = `${window.location.pathname}?page=${page}&query=${query}`;
-  history.pushState({ page, query }, '', newUrl);
 }
 
 function startButtonLocationCardHandler(e: Event) {
@@ -29,14 +19,10 @@ function startButtonLocationCardHandler(e: Event) {
     if (!btn) return;
 
     const location_id: number = Number((btn as HTMLElement).dataset.locationId);
-    if (!location_id) return;
+    if (!location_id || !searchedLocations) return;
 
-    if (!searchedLocations) return;
-
-    if (searchedLocations.find(location => location.location_id === location_id)) {
-        goToLocationPage(location_id);
-        return;
-    }
+    if (searchedLocations.find(location => location.location_id === location_id)) 
+        return goToLocationPage(location_id);
 
     showError("Location Can't be displayed. Refresh the page!");
 }
@@ -110,16 +96,24 @@ function renderPagination(current_page: number) {
 
 
 export async function fetchAndRenderLocations() {
-    const params = new URLSearchParams(window.location.search);
-    const page  = params.get('page') ? Number(params.get('page')) : 1
-    const query = params.get('query') ?? "";
-
-    const result = await fetchSearchedLocations(page, query);
-    searchedLocations = result.searched_locations;
-    total_pages = result.pages;
-
-    renderLocations(result.searched_locations);
-    renderPagination(page);
+    try {
+        const params = new URLSearchParams(window.location.search);
+        const page  = params.get('page') ? Number(params.get('page')) : 1
+        const query = params.get('query') ?? "";
+    
+        ({pages: total_pages, searched_locations: searchedLocations} = await fetchSearchedLocations(page, query));
+        if (searchedLocations.length) {
+            renderLocations(searchedLocations);
+            renderPagination(page);
+        } else {
+            searchContentContainer?.classList.add("hidden");
+            notFoundCard?.classList.remove("hidden");
+        }
+    } catch (error: any) {
+        showError(error.message);
+        if (error.message.toLowerCase().includes("not logged in"))
+            goToAuthPage();
+    }
 }
 
 
@@ -145,7 +139,7 @@ paginationContainer?.addEventListener("click", (event) => {
     const newPage = Number(target.dataset.page);
     if (!newPage || Number.isNaN(newPage)) return;
 
-    updateURL(newPage, new URLSearchParams(window.location.search).get('query') ?? "");
+    updateSearchPageURL(newPage, new URLSearchParams(window.location.search).get('query') ?? "");
     fetchAndRenderLocations();
 });
 

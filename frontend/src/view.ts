@@ -7,24 +7,36 @@ let location: LocationInfo | null;
 let tourImage: Image3D | null = null;
 let viewer: Pannellum.Viewer | null = null;
 let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
-let ads: Ad[];
+let ads: Ad[] | null;
+
+const viewerContentContainer = document.querySelector(".viewer-content");
+const notFoundCard = document.querySelector(".not-found-card");
 
 
-try {
-    if (!Number.isNaN(location_id)) {
-        location = await fetchLocation(location_id);
-        ads = await fetchAds(location.name, location.description);
-        renderLocationDetails(location)
-        renderAds();    
+if (window.location.pathname.includes("view")) {
+    try {
+        if (!Number.isNaN(location_id)) {
+            location = await fetchLocation(location_id);
+            if (location) {
+                ads = await fetchAds(location.name, location.description);
+                renderLocationDetails()
+                renderAds();    
+            } else {
+                viewerContentContainer?.classList.add("hidden");
+                notFoundCard?.classList.remove("hidden");
+            }
+        }
+    } catch (error: any) {
+        showError(error.message);
+        if (error.message.toLowerCase().includes("not logged in"))
+            goToAuthPage();  
     }
-} catch (error: any) {
-    showError(error.message);
-    if (error.message.toLowerCase().includes("not logged in"))
-        goToAuthPage();  
 }
 
 
-async function renderLocationDetails(location: LocationInfo) {
+async function renderLocationDetails() {
+    if (!location) return;
+
     const locationNameElement = document.querySelector(".location-name") as HTMLElement;
     const locationStateElement = document.querySelector(".location-state") as HTMLElement;
     const cordinatesElement = document.querySelector(".coord-badge") as HTMLElement;
@@ -41,10 +53,11 @@ async function renderLocationDetails(location: LocationInfo) {
 }
 
 function renderAds() {
-    const adCardsContainer = document.querySelector(".cards-container") as HTMLElement;
+    const adCardsContainer = document.querySelector(".cards-container");
+
+    if (!adCardsContainer || !ads || !ads.length) return;
 
     adCardsContainer.innerHTML = "";
-
     adCardsContainer.addEventListener("click", (e: Event) => {
         const btn = (e.target as HTMLElement).closest(".card-btn");
     

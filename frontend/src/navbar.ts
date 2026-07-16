@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
-import { fetchSearchedLocations, formatCordinates, formatRating, goToAuthPage, goToDashboardPage, goToProfilePage, goToSearchPage, goToViewPage, request } from "./helpers";
-import { fetchAndRenderLocations, updateURL } from "./search";
+import { fetchSearchedLocations, formatCordinates, formatRating, goToAuthPage, goToDashboardPage, goToProfilePage, goToSearchPage, updateSearchPageURL, request } from "./helpers";
+import { fetchAndRenderLocations } from "./search";
 import { LocationInfo } from "./types";
 
 insertNavbarInBody();
@@ -178,9 +178,9 @@ navigationSeachBar?.addEventListener("keyup", async (e: KeyboardEvent) => {
             }
         }, SEARCH_DELAY);
     } else {
-        if (window.location.href.startsWith("search")) {
+        if (window.location.href.includes("search")) {
             hideSearchResult();
-            updateURL(1, query);
+            updateSearchPageURL(1, query);
             await fetchAndRenderLocations();
             renderSearchedLocations(searchedLocations);
         } else {

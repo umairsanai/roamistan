@@ -9,6 +9,14 @@ export function greetUser(name: string) {
     element.textContent = `Welcome back, ${name}`;
 }
 
+export function updateSearchPageURL(page: number, query: string) {
+    const newUrl = `${window.location.pathname}?page=${page}&query=${query}`;
+    history.pushState({ page, query }, '', newUrl);
+}
+
+
+
+
 
 // NAVIGATION
 

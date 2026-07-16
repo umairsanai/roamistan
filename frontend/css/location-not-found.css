@@ -1,0 +1,127 @@
+.hidden {
+  display: none !important;
+}
+
+.not-found-page-shell {
+  width: 100%;
+}
+
+.not-found-content {
+  min-width: 0;
+}
+
+.not-found-page-shell:has(.not-found-card:not(.hidden)) {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 80px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  align-items: start;
+  gap: 32px;
+}
+
+.not-found-page-shell:has(.not-found-card:not(.hidden)) .main-grid,
+.not-found-page-shell:has(.not-found-card:not(.hidden)) .main-viewer {
+  padding: 0;
+}
+
+.not-found-page-shell:has(.not-found-card:not(.hidden)) .packages-section {
+  padding: 32px 0 0;
+}
+
+.not-found-card {
+  position: sticky;
+  top: 32px;
+  align-self: start;
+  background: #ffffff;
+  border: 1px solid #ebe8e1;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 18px 45px rgba(49, 49, 44, 0.09);
+}
+
+.not-found-icon-wrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffdad3, #d5e3ff);
+  color: #802918;
+  margin-bottom: 24px;
+}
+
+.not-found-icon {
+  font-size: 40px;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 40;
+}
+
+.not-found-kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #3a5f94;
+  margin-bottom: 10px;
+}
+
+.not-found-card h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 38px;
+  line-height: 44px;
+  font-weight: 700;
+  color: #1c1c18;
+  margin-bottom: 14px;
+}
+
+.not-found-copy {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  color: #404a3b;
+  margin-bottom: 22px;
+}
+
+.not-found-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #f1eee7;
+  border: 1px solid #e5e2db;
+  border-radius: 12px;
+  color: #294f83;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.not-found-hint .material-symbols-outlined {
+  color: #004b00;
+  font-size: 22px;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .not-found-page-shell:has(.not-found-card:not(.hidden)) {
+    padding: 16px 20px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .not-found-card {
+    position: static;
+    width: 100%;
+    padding: 24px;
+  }
+
+  .not-found-card h2 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+}

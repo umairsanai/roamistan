@@ -10,127 +10,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/navbar.css">
   <link rel="stylesheet" href="../css/search.css">
+  <link rel="stylesheet" href="../css/location-not-found.css">
 </head>
 <body>
-  <!-- main -->
-  <main class="container main-grid">
-    <!-- sidebar -->
-    <!-- <aside class="sidebar">
-      <h2>Filters</h2> -->
-      <!-- area -->
-      <!-- <div class="filter-group">
-        <label>Area / Region</label>
-        <div class="select-wrap">
-          <select>
-            <option value="all">All Regions</option>
-            <option value="gb" selected>Gilgit-Baltistan</option>
-            <option value="kp">Khyber Pakhtunkhwa</option>
-            <option value="punjab">Punjab</option>
-            <option value="sindh">Sindh</option>
-            <option value="balochistan">Balochistan</option>
-          </select>
-          <span class="material-symbols-outlined">expand_more</span>
-        </div>
-      </div> -->
-      <!-- rating -->
-      <!-- <div class="filter-group">
-        <div class="range-row">
-          <label>Minimum Rating</label>
-          <span class="range-badge">3.0+ Stars</span>
-        </div>
-        <input type="range" min="1" max="5" step="0.5" value="3.0">
-        <div class="range-labels">
-          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-        </div>
-      </div> -->
-      <!-- environment -->
-      <!-- <div class="filter-group">
-        <label>Environment</label>
-        <div class="checkbox-group">
-          <label><input type="checkbox" checked> Mountains</label>
-          <label><input type="checkbox" checked> Lakes &amp; Rivers</label>
-          <label><input type="checkbox"> Heritage Sites</label>
-        </div>
-      </div>
-    </aside> -->
+  <div class="search-page-shell not-found-page-shell">
+    <div class="search-content not-found-content">
+      <!-- main -->
+      <main class="container main-grid">
+        <section style="flex:1;">
+          <div class="card-grid"></div>
+          <!-- pagination -->
+          <div class="pagination">
+            <button class="page-btn page-prev"><span class="material-symbols-outlined">chevron_left</span></button>
+            <button class="page-btn page-next"><span class="material-symbols-outlined">chevron_right</span></button>
+          </div>
+        </section>
+      </main>
+    </div>
 
-    <!-- results -->
-    <section style="flex:1;">
-      <!-- <div class="results-header">
-        <h1>24 Results found</h1>
-        <div class="sort-wrap">
-          <span>Sort by:</span>
-          <select>
-            <option>Recommended</option>
-            <option>Highest Rated</option>
-            <option>Newest</option>
-          </select>
-        </div>
-      </div> -->
-
-      <div class="card-grid">
-        <!-- card 1 -->
-        <!-- card 2 -->
-        <article class="card">
-          <div class="card-img">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPPnDhIZtXpGPXR6WY5TsxTUGNky-ZYF9lKtG69Csr8qB1UZvGAvkpRCFv-TQZtwC_NhETA-MMva7aVD_vc7jByMRontT3p3UTH8qCIr95rtnQ2NcX0uv5BAzqEjXp5PtD1ZeD1nZ2TkVm_Jk4IHYkPy6OeoQ0qL-qP4IkuYijKEk6kbpUVToWhL-dFQt4bRISYeDUVD7bmnK_Q3NQvVLLR2Jidw69PGwCAjiToybgn5BQNMHx6ZWU9icJ244OjfAK4B_RXWADypk" alt="Attabad Lake">
-            <div class="card-badge"><span class="material-symbols-outlined">star</span><span>4.8</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Attabad Lake</h3>
-            <div class="card-location"><span class="material-symbols-outlined">location_on</span> Gilgit-Baltistan</div>
-            <p class="card-desc">Navigate the striking turquoise waters of this high-altitude lake surrounded by dramatic rocky peaks.</p>
-            <button class="card-btn card-btn-outline">View Details</button>
-          </div>
-        </article>
-        <!-- card 3 -->
-        <article class="card">
-          <div class="card-img">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSjgHZ1OZ4mo95ovNp7h1kqTg1DcBqoEVNjLq_Uo94kFUq0ew6BKd3atb-rqJU7lmX-Jwj-HURvg01CMr8RbQkHwA8XpLmsCHJmUQnISfm8S6M--5fzFanvcEj_cfmYxIrMUgB9oPGhmeo871tLfqj77MhkCiH96slHWRZHHgOlTnIPuq66eKZPqHBcJ1hGeKs-QnXnefDyyJdNFoqYSjiKPNjdHtiWD8htYWy63BY4YXy-PoRzFnI6IAXAYnbTDmXQE8yJ-6sAQA" alt="Fairy Meadows">
-            <div class="card-badge"><span class="material-symbols-outlined">star</span><span>4.9</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Fairy Meadows</h3>
-            <div class="card-location"><span class="material-symbols-outlined">location_on</span> Diamer District</div>
-            <p class="card-desc">Trek virtually to the base of Nanga Parbat and take in the panoramic views of this legendary alpine meadow.</p>
-            <button class="card-btn">Start Virtual Tour</button>
-          </div>
-        </article>
-        <!-- card 4 -->
-        <article class="card">
-          <div class="card-img">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxVx5-gKsYIB0YlmWGb9evBZshKymQ9GtlrcZ45KbaOfd-9NQKL2jXVB1izrFJgHZdwROsyj0IKkHtoxGrQ_a7hN0B7vJUhD4zVEUDqCVRgHo7hXkeeYbltOc4K0PTqvS4yvxqn4qT2IQSgyczVFJav-hHiv6k-AAJJpCORS1-pNHwWI-Ro_jzRVhaBcOFfe6AZhAuc0SpU4L6hblQ8gi1LCa2BPuHLruuUR3MAIRbl5ixtCWS5wguWvNGbKGOB468L2F2KNYN6SI" alt="Skardu Cold Desert">
-            <div class="card-badge"><span class="material-symbols-outlined">star</span><span>4.7</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Skardu Cold Desert</h3>
-            <div class="card-location"><span class="material-symbols-outlined">location_on</span> Skardu Valley</div>
-            <p class="card-desc">Explore the surreal landscape where vast sand dunes meet towering snow-capped mountains.</p>
-            <button class="card-btn card-btn-outline">View Details</button>
-          </div>
-        </article>
-        <!-- card 5 -->
-        <article class="card">
-          <div class="card-img">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ2pFkSQtkpRHcZJAaiVNyS6FLMxHuNdDEmbhGcEB7pr5yGt3OTVX8IQc6DnSypyjh4lk7Pmr5NzWl_Rf4CA-ZZkbuDt65KAITparSfwyxfXzhLCXinY3gM2LQdOl_3SKTbtnDM1oIZQg7ngO7kZLZ1uflVUiy0qngt8Wwh4uIiOHU6c2i3xWyWPPAuin7msEt3HjJBs_lti61TT1z0wqCRpsWr-3rV-Fa55u3mjsyp_hfQsc2Ygce2o3FamTtGXFl3VRt4VAh6Lw" alt="Khunjerab Pass">
-            <div class="card-badge"><span class="material-symbols-outlined">star</span><span>4.8</span></div>
-          </div>
-          <div class="card-body">
-            <h3>Khunjerab Pass</h3>
-            <div class="card-location"><span class="material-symbols-outlined">location_on</span> Karakoram Highway</div>
-            <p class="card-desc">Drive along the highest paved international border crossing in the world in an immersive 360 experience.</p>
-            <button class="card-btn">Start Virtual Tour</button>
-          </div>
-        </article>
+    <aside class="not-found-card hidden" aria-live="polite">
+      <div class="not-found-icon-wrap">
+        <span class="material-symbols-outlined not-found-icon">search_off</span>
       </div>
-
-      <!-- pagination -->
-      <div class="pagination">
-        <button class="page-btn page-prev"><span class="material-symbols-outlined">chevron_left</span></button>
-        <button class="page-btn page-next"><span class="material-symbols-outlined">chevron_right</span></button>
+      <p class="not-found-kicker">No matches</p>
+      <h2>No location found</h2>
+      <p class="not-found-copy">
+        We could not find any destinations matching your search. Try a different place name, region, or spelling.
+      </p>
+      <div class="not-found-hint">
+        <span class="material-symbols-outlined">travel_explore</span>
+        <span>Adjust your search and explore another destination.</span>
       </div>
-    </section>
-  </main>
+    </aside>
+  </div>
   <script type="module" src="../src/search.ts"></script>
   <script type="module" src="../src/navbar.ts"></script>
 </body>

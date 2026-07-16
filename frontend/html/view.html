@@ -11,81 +11,76 @@
   <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css"/>
   <link rel="stylesheet" href="../css/navbar.css">
   <link rel="stylesheet" href="../css/view.css">
+  <link rel="stylesheet" href="../css/location-not-found.css">
   <script src="https://cdn.pannellum.org/2.5/pannellum.js"></script>
 </head>
 <body>
-  <!-- main viewer -->
-  <div class="main-viewer">
-    <!-- panorama -->
-    <section class="panorama-wrap">
-      <div id="panorama-bg" class="panorama-bg"></div>
-      <div id="panorama-overlay" class="panorama-overlay"></div>
+  <div class="viewer-page-shell not-found-page-shell">
+    <div class="viewer-content not-found-content">
+      <!-- main viewer -->
+      <div class="main-viewer">
+        <!-- panorama -->
+        <section class="panorama-wrap">
+          <div id="panorama-bg" class="panorama-bg"></div>
+          <div id="panorama-overlay" class="panorama-overlay"></div>
 
-      <!-- fullscreen -->
-      <button class="fullscreen-btn">
-        <span class="material-symbols-outlined">fullscreen</span>
-        <span class="fullscreen-label">Enter Fullscreen</span>
-      </button>
+          <!-- fullscreen -->
+          <button class="fullscreen-btn">
+            <span class="material-symbols-outlined">fullscreen</span>
+            <span class="fullscreen-label">Enter Fullscreen</span>
+          </button>
 
-      <!-- info card -->
-      <div class="info-card">
-        <h1 class="location-name">Fairy Meadows</h1>
-        <div class="sub-loc">
-          <span class="material-symbols-outlined">location_on</span>
-          <span class="location-state">Nanga Parbat Base Camp, Pakistan</span>
-        </div>
-        <div class="coord-badge">
-          <span class="material-symbols-outlined">my_location</span>35.3853° N, 74.5828° E</div>
-      </div>
-
-      <!-- right controls -->
-      <div class="controls-right">
-        <div class="zoom-group">
-          <button id="zoom-in-btn" title="Zoom In"><span class="material-symbols-outlined">add</span></button>
-          <div class="divider"></div>
-          <button id="zoom-out-btn" title="Zoom Out"><span class="material-symbols-outlined">remove</span></button>
-        </div>
-      </div>
-
-      <!-- arrows -->
-      <div id="left-btn" class="nav-arrows left">
-        <button><span class="material-symbols-outlined">chevron_left</span></button>
-      </div>
-      <div id="right-btn" class="nav-arrows right">
-        <button><span class="material-symbols-outlined">chevron_right</span></button>
-      </div>
-    </section>
-
-    <!-- sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-sticky">
-        <h3><span class="material-symbols-outlined">campaign</span> Local Experiences</h3>
-      </div>
-      <div class="cards-container">
-
-
-        <!-- card 2 -->
-        <div class="tour-card">
-          <div class="tour-card-img">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA61iUCoJmDjaemM2Jx08CkNuB8IZSJPyOyf7UgUbVqx4oYaXVsPeQeTwEQLVBTfYm65orVZDQDZqnIk7BW1Y2BkyfftK4H4nSbmuZAeRW4cQt-AU0aL71qVNr7m4XOWCzc023YN0WNqULuqhHRJU5Slf8-6j7mH6v_HCkxecUEO9PWC2JMDJuf99b1Xcxu9-HAh9F7wJ2F4c-wWEj5pvgSNw-YhbxTCmxxyZl5pF_UW_5FwX3de-i58egL3jmEy4gBXXcONSQbBt0" alt="Eco lodge">
-            <div class="sponsor-tag"><span class="material-symbols-outlined">star</span> Featured</div>
-          </div>
-          <div class="card-body">
-            <div class="card-header">
-              <h4>Nanga Parbat Eco-Lodge</h4>
-              <div class="price-block">
-                <div class="price">$185</div>
-              </div>
+          <!-- info card -->
+          <div class="info-card">
+            <h1 class="location-name"></h1>
+            <div class="sub-loc">
+              <span class="material-symbols-outlined">location_on</span>
+              <span class="location-state"></span>
             </div>
-            <p class="card-desc">Wake up to unobstructed, majestic views of the 'Killer Mountain' right from your heated, premium cabin.</p>
-            <div class="agency-badge"><span class="material-symbols-outlined">verified</span></div>
-            <button class="card-btn card-btn-outline">View Details</button>
+            <div class="coord-badge">
+              <span class="material-symbols-outlined">my_location</span></div>
           </div>
-        </div>
 
-        <div class="show-all">
-          <button>Show all local experiences</button>
-        </div>
+          <!-- right controls -->
+          <div class="controls-right">
+            <div class="zoom-group">
+              <button id="zoom-in-btn" title="Zoom In"><span class="material-symbols-outlined">add</span></button>
+              <div class="divider"></div>
+              <button id="zoom-out-btn" title="Zoom Out"><span class="material-symbols-outlined">remove</span></button>
+            </div>
+          </div>
+
+          <!-- arrows -->
+          <div id="left-btn" class="nav-arrows left">
+            <button><span class="material-symbols-outlined">chevron_left</span></button>
+          </div>
+          <div id="right-btn" class="nav-arrows right">
+            <button><span class="material-symbols-outlined">chevron_right</span></button>
+          </div>
+        </section>
+
+        <!-- sidebar -->
+        <aside class="sidebar">
+          <div class="sidebar-sticky">
+            <h3><span class="material-symbols-outlined">campaign</span> Local Experiences</h3>
+          </div>
+          <div class="cards-container"></div>
+        </aside>
+      </div>
+    </div>
+
+    <aside class="not-found-card" aria-live="polite">
+      <div class="not-found-icon-wrap">
+        <span class="material-symbols-outlined not-found-icon">location_off</span>
+      </div>
+      <p class="not-found-kicker">Viewer unavailable</p>
+      <h2>No location found</h2>
+      <p class="not-found-copy">
+        We could not load an immersive tour for this link. The destination may have been removed, renamed, or opened from an outdated address.
+      </p>
+      <div class="not-found-hint">
+        <span class="material-symbols-outlined">360</span>
+        <span>Try another destination or return to the locations list.</span>
       </div>
     </aside>
   </div>

@@ -82,6 +82,23 @@ body {
 }
 
 /* ---------- LAYOUT ---------- */
+.viewer-page-shell {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.viewer-page-shell.not-found-page-shell:has(.not-found-card:not(.hidden)) {
+  height: calc(100vh - 80px - 2.5rem);
+  overflow: hidden;
+}
+
+.viewer-page-shell.not-found-page-shell:has(.not-found-card:not(.hidden)) .main-viewer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 /* ---------- MAIN LAYOUT (viewer + sidebar) ---------- */
 .main-viewer {
   display: flex;
@@ -561,6 +578,11 @@ body {
 
 @media (max-width: 1023px) {
   .panorama-wrap { height: 400px; }
+
+  .viewer-page-shell.not-found-page-shell:has(.not-found-card:not(.hidden)) {
+    height: calc(100vh - 80px - 2.5rem);
+    overflow-y: auto;
+  }
 }
 
 @media (min-width: 1280px) {
