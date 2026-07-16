@@ -11,13 +11,10 @@
 }
 
 .not-found-page-shell:has(.not-found-card:not(.hidden)) {
-  max-width: 1440px;
   margin: 0 auto;
   padding: 32px 80px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
   align-items: start;
-  gap: 32px;
 }
 
 .not-found-page-shell:has(.not-found-card:not(.hidden)) .main-grid,
@@ -27,6 +24,11 @@
 
 .not-found-page-shell:has(.not-found-card:not(.hidden)) .packages-section {
   padding: 32px 0 0;
+}
+
+.not-found-page-shell:has(.not-found-card:not(.hidden)) .not-found-card {
+  width: min(100%, 1000px);
+  justify-self: center;
 }
 
 .not-found-card {

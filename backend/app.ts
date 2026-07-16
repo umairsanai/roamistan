@@ -43,7 +43,7 @@ app.use([xss(), helmet(), hpp({ whitelist: [] })]);
 
 
 // ROUTERS
-app.use("/api/v1/listings", adRouter);
+app.use("/api/v1/packages", adRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/locations", locationRouter);

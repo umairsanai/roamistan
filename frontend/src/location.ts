@@ -19,7 +19,7 @@ if (window.location.pathname.includes("location")) {
         if (!Number.isNaN(location_id)) {
             location = await fetchLocation(location_id);
             if (location) {
-                ads = await fetchAds(location.name, location.description);
+                ads = await fetchAds(location.location_id);
                 renderLocation();
                 renderAds();
             } else {

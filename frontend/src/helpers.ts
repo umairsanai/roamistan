@@ -94,17 +94,8 @@ export async function fetchSearchedLocations(page: number, query: string) {
     }) as SearchRequestResult;
 }
 
-export async function fetchAds(title: string, description: string) {
-    return await request(`${import.meta.env.VITE_API_URL}/listings/`, {
-        method: "POST",
-        body: JSON.stringify({
-            location_title: title,
-            location_description: description
-        }),
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }) as Ad[];
+export async function fetchAds(location_id: number) {
+    return await request(`${import.meta.env.VITE_API_URL}/packages/${location_id}`) as Ad[];
 }
 
 export async function fetchLocation(location_id: number) {

@@ -77,12 +77,13 @@ CREATE TABLE reviews (
 );
 
 
-CREATE TABLE hashtags (
+CREATE TABLE ad_location_map (
     ad_id INT,
-    tag VARCHAR(20),
+    location_id INT,
 
-    CONSTRAINT pkey_hashtags PRIMARY KEY (ad_id, tag),
-    CONSTRAINT fkey_hashtags_adid FOREIGN KEY (ad_id) REFERENCES ads(ad_id) ON UPDATE CASCADE ON DELETE CASCADE
+    CONSTRAINT pkey_ad_location_map PRIMARY KEY (ad_id, location_id),
+    CONSTRAINT fkey_adlocationmap_adid FOREIGN KEY (ad_id) REFERENCES ads(ad_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT fkey_adlocationmap_locationid FOREIGN KEY (location_id) REFERENCES locations(location_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 

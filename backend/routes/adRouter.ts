@@ -5,6 +5,6 @@ import { getAdsAroundLocation } from "../controllers/ads.js";
 const router = express.Router();
 
 // Get all the ads for a particular location
-router.post("/", protect, getAdsAroundLocation);
+router.get("/:locationId", protect, getAdsAroundLocation);
 
 export default router;
