@@ -9,6 +9,7 @@ const signupModeBtn = document.getElementById('btnSignup');
 const loginSubmitBtn = document.querySelector(".login-submit-btn");
 const signupSubmitBtn = document.querySelector(".signup-submit-btn");
 const oauthButton = document.querySelector(".btn-oauth");
+const passwordToggleButtons = document.querySelectorAll<HTMLButtonElement>("[data-password-toggle]");
 const oppositeMode = new Map([["signup", "login"], ["login", "signup"]]);
 let mode = "login";
 
@@ -24,6 +25,7 @@ function switchMode() {
     loginModeBtn?.classList.toggle('active');
     loginModeBtn?.classList.toggle('inactive');
     mode = oppositeMode.get(mode)!;
+    document.title = `Roamistan · ${mode[0].toUpperCase() + mode.toLowerCase().slice(1)}`;
 
     if (mode === 'login' && indicator)
         indicator.style.transform = 'translateX(0)';
@@ -83,6 +85,19 @@ async function signupEventHandler(e: Event) {
     }
 }
 
+function togglePasswordVisibility(button: HTMLButtonElement) {
+    const targetId = button.dataset.passwordToggle;
+    if (!targetId) return;
+
+    const passwordInput = document.getElementById(targetId) as HTMLInputElement | null;
+    const icon = button.querySelector(".password-toggle-icon");
+    if (!passwordInput || !icon) return;
+
+    const isHidden = passwordInput.type === "password";
+    passwordInput.type = isHidden ? "text" : "password";
+    icon.textContent = isHidden ? "visibility_off" : "visibility";
+}
+
 
 // ==========    EVENT LISTENERS    ==========
 
@@ -98,5 +113,8 @@ document.body.addEventListener("keydown", async (e: KeyboardEvent) => {
 });
 oauthButton?.addEventListener("click", () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/auth/google/login`;
+});
+passwordToggleButtons.forEach((button) => {
+    button.addEventListener("click", () => togglePasswordVisibility(button));
 });
 initializeCustomSelects();
