@@ -8,7 +8,7 @@
     "build": "tsc",
     "dev": "MODE=dev nodemon --exec tsx index.ts",
     "start": "MODE=dev node dist/index.js",
-    "prod": "MODE=prod nodemon --exec tsx index.ts"
+    "prod": "MODE=prod node dist/index.js"
   },
   "author": "Umair Anwar",
   "license": "ISC",

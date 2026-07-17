@@ -59,14 +59,14 @@ export const protect = handleAsyncError(async (req: Request, res: Response, next
     }
 
     const user = (await pool.query("SELECT user_id, name, email, city, country, password_changed_at, created_at::TEXT, tours_completed, profile_url FROM users WHERE email=$1", [payload.email])).rows[0];
-    delete user.password_changed_at;
-
+    
     if (!user)
         return next(new AppError("This user doesn't exist", 404));
-
+    
     if (payload.iat && payload.iat*1000 <= user.password_changed_at)
         return next(new AppError("You have changed your password. Please log in again!", 401));
-
+    
+    delete user.password_changed_at;
     req.user = user;
     next();
 });

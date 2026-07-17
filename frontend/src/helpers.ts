@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { Ad, Image3D, LocationInfo, SearchRequestResult, User } from "./types";
+import { Ad, Image3D, LocationInfo, SearchRequestResult, User } from "./types.js";
 
 export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
@@ -118,6 +118,9 @@ export async function fetchTourImage(tourImageId: number) {
     return await request(`${import.meta.env.VITE_API_URL}/locations/tour-image/${tourImageId}`) as Image3D;    
 }
 
+export async function fetchLocationsAround() {
+    return await request(`${import.meta.env.VITE_API_URL}/locations/around`) as LocationInfo[];
+}
 
 
 

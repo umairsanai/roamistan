@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
-import { fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, request, showError } from "./helpers";
-import type { LocationInfo, User } from "./types";
+import { fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, request, showError } from "./helpers.js";
+import type { LocationInfo, User } from "./types.js";
 
 let user: User;
 let bookmarks: LocationInfo[];

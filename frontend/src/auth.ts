@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
-import { goToDashboardPage, request, showError } from "./helpers";
-import { closeAllCustomSelects, initializeCustomSelects } from "./authDropdown.ts";
+import { goToDashboardPage, request, showError } from "./helpers.js";
+import { closeAllCustomSelects, initializeCustomSelects } from "./authDropdown.js";
 
 const loginForm = document.getElementById('formLogin');
 const signupForm = document.getElementById('formSignup');

@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
-import { fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, request, showError } from "./helpers";
-import type { Ad, LocationInfo, User } from "./types";
+import { fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, request, showError } from "./helpers.js";
+import type { Ad, LocationInfo, User } from "./types.js";
 
 const startTourButton = document.querySelector(".tour-btn");
 const adsListContainer = document.querySelector(".packages-grid");
@@ -11,7 +11,7 @@ const notFoundCard = document.querySelector(".not-found-card");
 
 
 let location: LocationInfo | null;
-    let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
+let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
 let ads: Ad[] | null;
 
 try {

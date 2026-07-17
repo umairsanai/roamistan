@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { fetchAds, fetchLocation, fetchTourImage, formatCordinates, formatPrice, goToAuthPage, showError } from "./helpers.ts";
+import { fetchAds, fetchLocation, fetchTourImage, formatCordinates, formatPrice, goToAuthPage, showError } from "./helpers.js";
 import type { Ad, Image3D, LocationInfo } from "./types.ts"
 import "pannellum";
 

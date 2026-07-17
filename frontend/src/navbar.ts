@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
-import { fetchSearchedLocations, formatCordinates, formatRating, goToAuthPage, goToDashboardPage, goToProfilePage, goToSearchPage, updateSearchPageURL, request } from "./helpers";
-import { fetchAndRenderLocations } from "./search";
-import { LocationInfo } from "./types";
+import { fetchSearchedLocations, formatCordinates, formatRating, goToAuthPage, goToDashboardPage, goToProfilePage, goToSearchPage, updateSearchPageURL, request } from "./helpers.js";
+import { fetchAndRenderLocations } from "./search.js";
+import { LocationInfo } from "./types.js";
 
 insertNavbarInBody();
 

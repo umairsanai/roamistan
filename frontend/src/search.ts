@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
-import { fetchSearchedLocations, goToAuthPage, goToLocationPage, showError, updateSearchPageURL } from "./helpers";
-import { LocationInfo } from "./types";
+import { fetchSearchedLocations, goToAuthPage, goToLocationPage, showError, updateSearchPageURL } from "./helpers.js";
+import { LocationInfo } from "./types.js";
 
 const paginationContainer = document.querySelector(".pagination");
 const searchContentContainer = document.querySelector(".search-content");

@@ -1,21 +1,18 @@
 /// <reference types="vite/client" />
-import { fetchBookmarks, fetchMe, fetchTrendingLocations, goToAuthPage, goToLocationPage, goToProfilePage, greetUser, showError } from "./helpers.ts";
-import { type LocationInfo } from "./types.ts";
+import { fetchBookmarks, fetchLocationsAround, fetchMe, fetchTrendingLocations, goToAuthPage, goToLocationPage, goToProfilePage, greetUser, showError } from "./helpers.js";
+import { type LocationInfo } from "./types.js";
 
 
 let user;
 let bookmarks: LocationInfo[];
 let trendingLocations: LocationInfo[];
-const locationsAround: LocationInfo[] = [
-    {location_id: 4, name: "Lahore Fort", address: "Lahore, Punjab", tour_image_id: null, cover_image_url: "../assets/lahore-fort.jpg", rating: "4.7", views: 100, reviews_count: 100, description: "A UNESCO World Heritage site, Lahore Fort stands as a testament to Mughal grandeur and architectural brilliance. Built over centuries, it features stunning palaces, marble mosques, and beautifully adorned halls that whisper tales of royal history.", coordinate_x: "30.0000", coordinate_y: "40.0000", is_bookmarked: 0},
-    {location_id: 5, name: "Faisal Mosque", address: "Islamabad", tour_image_id: null, cover_image_url: "../assets/faisal-mosque.jpg", rating: "4.9", views: 150, reviews_count: 100, description: "Designed by Turkish architect Vedat Dalokay, Faisal Mosque is the largest mosque in South Asia and a modern architectural marvel. Its unique tent-like shape, surrounded by four towering minarets, sits beautifully against the backdrop of the Margalla Hills.", coordinate_x: "30.0000", coordinate_y: "40.0000", is_bookmarked: 0},
-    {location_id: 6, name: "Margalla Hills", address: "Islamabad", tour_image_id: null, cover_image_url: "../assets/margalla-hills.jpg", rating: "4.8", views: 350, reviews_count: 100, description: "Part of the Himalayan foothills, Margalla Hills offer a serene escape from the bustling city life of Islamabad. With lush green trails, diverse wildlife, and panoramic views of the capital, it's a haven for hikers and nature lovers.", coordinate_x: "30.0000", coordinate_y: "40.0000", is_bookmarked: 0}
-];
+let locationsAround: LocationInfo[];
 
 try {
     user = await fetchMe();
     bookmarks = await fetchBookmarks();
     trendingLocations = await fetchTrendingLocations();
+    locationsAround = await fetchLocationsAround();
     greetUser(user.name.split(" ")[0]);
     renderBookmarks(bookmarks);
     renderLocationsAround(locationsAround);
