@@ -31,11 +31,6 @@
       "source": "/",
       "destination": "/dashboard",
       "statusCode": 302
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/dashboard",
-      "statusCode": 302
     }
   ]
 }
