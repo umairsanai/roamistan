@@ -9,9 +9,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && mv dist/html/* dist && rm -rf dist/html",
     "preview": "vite preview",
-    "prod": "vite build && vite preview"
+    "prod": "vite preview"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "engines": {

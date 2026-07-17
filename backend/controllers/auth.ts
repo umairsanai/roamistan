@@ -18,7 +18,7 @@ const signJwtToken = (email: string) => {
 const signTokenAndSetInCookie = (email: string, res: Response, cookie_name: string) => {
     res.cookie(cookie_name, signJwtToken(email), {
         httpOnly: true,
-        sameSite: "lax",
+        sameSite: "none",
         path: "/",
         maxAge: 7 * 24 * 60 * 60 * 1000,      // 7 days
         secure: process.env.MODE === "prod"
@@ -143,12 +143,10 @@ export const authenticateUserAfterOAuth = handleAsyncError(async (req: Request, 
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
     const cookieOptions: CookieOptions = {
-        sameSite: "lax",
+        sameSite: "none",
         path: "/",
         secure: process.env.MODE === "prod"
     };
-
-    // TEST: LOGOUT IN PRODUCTION
 
     res.clearCookie("roamistan-login-token", cookieOptions);
     res.clearCookie("roamistan-google-access-token", cookieOptions);
