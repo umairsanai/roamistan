@@ -1,36 +1,3 @@
 {
-  "cleanUrls": true,
-  "rewrites": [
-    {
-      "source": "/dashboard",
-      "destination": "/html/dashboard.html"
-    },
-    {
-      "source": "/profile",
-      "destination": "/html/profile.html"
-    },
-    {
-      "source": "/auth",
-      "destination": "/html/auth.html"
-    },
-    {
-      "source": "/location",
-      "destination": "/html/location.html"
-    },
-    {
-      "source": "/search",
-      "destination": "/html/search.html"
-    },
-    {
-      "source": "/view",
-      "destination": "/html/view.html"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/dashboard",
-      "statusCode": 302
-    }
-  ]
+  "cleanUrls": true
 }
