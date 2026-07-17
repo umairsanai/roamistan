@@ -30,7 +30,7 @@ app.use(rateLimit({
 }));
 
 // CORS
-app.use(cors({origin: ["http://127.0.0.1:4173", "http://localhost:4173", "http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:3000", "http://localhost:3000"], credentials: true}));
+app.use(cors({origin: ["http://127.0.0.1:4173", "http://localhost:4173", "http://127.0.0.1:5173", "http://localhost:5173", "http://127.0.0.1:3000", "http://localhost:3000", "https://roamistan.vercel.app", "https://www.roamistan.vercel.app"], credentials: true}));
 
 // BODY PARSING
 app.set('query parser', 'extended');
