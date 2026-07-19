@@ -240,6 +240,72 @@ body {
   border-radius: 9999px;
 }
 
+.undo-card {
+  background: #ffffff;
+  border: 1px solid #d8dfd2;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.04);
+  height: 65px;
+  max-width: 99%;
+  overflow: hidden;
+  color: #1c1c18;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.85rem 1rem;
+  transition: 0.5s;
+}
+
+.undo-card.hidden {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border: 0;
+  opacity: 0;
+}
+
+.undo-card-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+.undo-card-icon {
+  color: #772212;
+  background: rgba(119, 34, 18, 0.08);
+  border-radius: 9999px;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  padding: 0.45rem;
+}
+.undo-card-text {
+  color: #1c1c18;
+  font-weight: 600;
+}
+.undo-card-button {
+  background: #004b00;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+  color: #ffffff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1.25rem;
+  transition: background 0.15s;
+}
+.undo-card-button:hover {
+  background: #006600;
+}
+.undo-card-button:active {
+  transform: scale(0.96);
+}
+
 .fav-empty-state {
   min-height: 240px;
   padding: 2rem;

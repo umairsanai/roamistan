@@ -1,18 +1,22 @@
 /// <reference types="vite/client" />
-import { fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, request, showError } from "./helpers.js";
+import { bookmarkLocation, deleteBookmarkedLocation, fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, request, showError } from "./helpers.js";
 import type { LocationInfo, User } from "./types.js";
+
+const HIDE_UNDO_CARD_TIMEOUT_LIMIT = 1.5 * 1000;     // seconds
 
 let user: User;
 let bookmarks: LocationInfo[];
+let oldBookmarks: LocationInfo[] | null = null;
+let undoCardTimeoutId: number | null = null;
 
 const bookmarksListContainer = document.querySelector(".fav-list");
 const profileImageElement = document.querySelector(".profile-img") as HTMLImageElement | null;
 const overlayButton = document.querySelector(".overlay-btn") as HTMLButtonElement | null;
 const profilePictureInput = document.querySelector("#profilePictureInput") as HTMLInputElement | null;
+const undoCard = document.querySelector(".undo-card") as HTMLElement | null;
 
 try {
-    user = await fetchMe();
-    bookmarks = await fetchBookmarks();
+    [user, bookmarks] = await Promise.all([fetchMe(), fetchBookmarks()]);
     renderProfile(user);
     renderBookmarks(bookmarks);
 } catch (error: any) {
@@ -20,6 +24,10 @@ try {
     if (error.message.toLowerCase().includes("not logged in"))
         goToAuthPage();
 }
+
+
+const showUndoCard = () => undoCard?.classList.remove("hidden");
+const hideUndoCard = () => undoCard?.classList.add("hidden");
 
 function renderProfile(user: User) {
     const nameElement = document.querySelector(".profile-name") as HTMLElement;
@@ -73,17 +81,59 @@ async function deleteBookmarkHandler(e: Event) {
     const locationId = Number((target.closest(".bookmark-remove") as HTMLElement).dataset.locationId);
     if (!locationId || Number.isNaN(locationId)) return;
 
+    if (undoCard) {
+        showUndoCard();
+        (undoCard.querySelector(".undo-card-button")! as HTMLElement).dataset.locationId = locationId.toString();
+    }
+
+    oldBookmarks = [...bookmarks];
+
     try {
-        await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${locationId}`, {
-            method: "DELETE"
-        });
+        
         bookmarks = bookmarks.filter((location) => location.location_id !== locationId);
         renderBookmarks(bookmarks);
+        await deleteBookmarkedLocation(locationId);
+        undoCardTimeoutId = setTimeout(hideUndoCard, HIDE_UNDO_CARD_TIMEOUT_LIMIT);
+
     } catch (error: any) {
+        bookmarks = oldBookmarks;
+        renderBookmarks(bookmarks);
         showError(error.message);
     }
 }
 
+async function undoBookarkDeleteHandler(e: Event) {
+    if (!e.target) return;
+
+    const target = e.target as HTMLButtonElement;
+    if (!target?.classList?.contains("undo-card-button")) return;
+
+    const locationId = Number(target.dataset.locationId);
+    if (!locationId) return;
+
+    if (undoCardTimeoutId)
+        clearTimeout(undoCardTimeoutId);
+    target.disabled = true;
+
+    let currentBookmarks = [...bookmarks];
+
+    try {
+        
+        bookmarks = oldBookmarks ?? bookmarks;
+        renderBookmarks(bookmarks);
+        await bookmarkLocation(locationId);
+        hideUndoCard();
+
+    } catch(error: any) {
+
+        bookmarks = currentBookmarks;
+        renderBookmarks(bookmarks);        
+        showError("Bookmark couldn't be restored! Try again!");
+
+    } finally {
+        target.disabled = false;
+    }
+}
 
 function exploreLocationHandler(e: Event) {
 
@@ -137,3 +187,4 @@ overlayButton?.addEventListener("click", () => {
 document.body.addEventListener("click", exploreLocationHandler);
 profilePictureInput?.addEventListener("change", uploadProfilePictureHandler);
 bookmarksListContainer?.addEventListener("click", deleteBookmarkHandler);
+undoCard?.addEventListener("click", undoBookarkDeleteHandler);

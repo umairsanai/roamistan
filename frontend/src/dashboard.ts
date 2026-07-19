@@ -9,10 +9,7 @@ let trendingLocations: LocationInfo[];
 let locationsAround: LocationInfo[];
 
 try {
-    user = await fetchMe();
-    bookmarks = await fetchBookmarks();
-    trendingLocations = await fetchTrendingLocations();
-    locationsAround = await fetchLocationsAround();
+    [user, bookmarks, trendingLocations, locationsAround] = await Promise.all([fetchMe(), fetchBookmarks(), fetchTrendingLocations(), fetchLocationsAround()]);
     greetUser(user.name.split(" ")[0]);
     renderBookmarks(bookmarks);
     renderLocationsAround(locationsAround);

@@ -3,29 +3,27 @@ import { fetchAds, fetchLocation, fetchTourImage, formatCordinates, formatPrice,
 import type { Ad, Image3D, LocationInfo } from "./types.ts"
 import "pannellum";
 
+const viewerContentContainer = document.querySelector(".viewer-content");
+const notFoundCard = document.querySelector(".not-found-card");
+
+
 let location: LocationInfo | null;
 let tourImage: Image3D | null = null;
 let viewer: Pannellum.Viewer | null = null;
 let location_id = Number(new URLSearchParams(window.location.search).get("loc"));
 let ads: Ad[] | null;
 
-const viewerContentContainer = document.querySelector(".viewer-content");
-const notFoundCard = document.querySelector(".not-found-card");
-
 
 try {
-    if (!Number.isNaN(location_id)) {
-        location = await fetchLocation(location_id);
-        if (location) {
-            ads = await fetchAds(location.location_id);
-            renderLocationDetails()
-            renderAds();    
-        } else {
-            viewerContentContainer?.classList.add("hidden");
-            notFoundCard?.classList.remove("hidden");
-        }
-    }
+
+    [location, ads] = await Promise.all([fetchLocation(location_id), fetchAds(location_id)]); 
+    renderLocationDetails()
+    renderAds();    
+    if (!location) 
+        throw new Error("No Location Found!");
+
 } catch (error: any) {
+    [viewerContentContainer, notFoundCard].forEach(el => el?.classList.toggle("hidden"));
     showError(error.message);
     if (error.message.toLowerCase().includes("not logged in"))
         goToAuthPage();  

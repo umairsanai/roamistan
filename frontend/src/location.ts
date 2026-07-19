@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import { fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, request, showError } from "./helpers.js";
+import { bookmarkLocation, deleteBookmarkedLocation, fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, request, showError } from "./helpers.js";
 import type { Ad, LocationInfo, User } from "./types.js";
 
 const startTourButton = document.querySelector(".tour-btn");
@@ -15,19 +15,15 @@ let location_id = Number(new URLSearchParams(window.location.search).get("loc"))
 let ads: Ad[] | null;
 
 try {
-    if (!Number.isNaN(location_id)) {
-        location = await fetchLocation(location_id);
-        if (location) {
-            ads = await fetchAds(location.location_id);
-            renderLocation();
-            renderAds();
-        } else {
-            console.log(locationContentContainer, notFoundCard);
-            locationContentContainer?.classList.add("hidden");
-            notFoundCard?.classList.remove("hidden");
-        }
-    }
+
+    [location, ads] = await Promise.all([fetchLocation(location_id), fetchAds(location_id)]); 
+    renderLocation();
+    renderAds();
+    if (!location) 
+        throw new Error("No Location Found!");    
+
 } catch (error: any) {
+    [locationContentContainer, notFoundCard].forEach(el => el?.classList.toggle("hidden"));
     showError(error.message);
     if (error.message.toLowerCase().includes("not logged in"))
         goToAuthPage();
@@ -112,18 +108,15 @@ adsListContainer?.addEventListener("click", (event: Event) => {
 bookmarkButton?.addEventListener("click", async () => {
     if (Number.isNaN(location_id) || !location) return;
     try {
-        if (location.is_bookmarked) {
-            await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${location_id}`, {
-                method: "DELETE"
-            });            
-        } else {
-            await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${location_id}`, {
-                method: "POST"
-            });
-        }
+        changeBookmarkIcon(Number(!location.is_bookmarked));
+
+        location.is_bookmarked ?
+            await deleteBookmarkedLocation(location_id) : 
+            await bookmarkLocation(location_id);
+
         location.is_bookmarked = Number(!location.is_bookmarked);
-        changeBookmarkIcon(location.is_bookmarked);
     } catch (error: any) {
+        changeBookmarkIcon(location.is_bookmarked);
         showError(error.message);
     }
 });

@@ -4,11 +4,13 @@ import { protect } from "../controllers/auth.js";
 
 const router = express.Router();
 
-router.get("/me", protect, getMe);
-router.get("/bookmarks", protect, getBookmarkedLocations);
-router.post("/bookmark/:locationId", protect, bookmarkLocation);
-router.delete("/bookmark/:locationId", protect, deleteBookmarkLocation);
-router.post("/profile-picture", protect, upload.single('profile_picture'), uploadProfilePicture);
+router.use(protect);
+
+router.get("/me", getMe);
+router.get("/bookmarks", getBookmarkedLocations);
+router.post("/bookmark/:locationId", bookmarkLocation);
+router.delete("/bookmark/:locationId", deleteBookmarkLocation);
+router.post("/profile-picture", upload.single('profile_picture'), uploadProfilePicture);
 
 export default router;
 

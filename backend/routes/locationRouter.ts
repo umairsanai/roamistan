@@ -4,10 +4,12 @@ import { getLocation, getLocationsAround, getSearchedLocations, getTourImageOfLo
 
 const router = express.Router();
 
-router.post("/search", protect, getSearchedLocations);
-router.get("/trending", protect, getTrendingLocations);
-router.get("/around", protect, getLocationsAround);
-router.get("/tour-image/:imageId", protect, getTourImageOfLocation);
-router.get("/:locationId", protect, getLocation);
+router.use(protect);
+
+router.post("/search", getSearchedLocations);
+router.get("/trending", getTrendingLocations);
+router.get("/around", getLocationsAround);
+router.get("/tour-image/:imageId", getTourImageOfLocation);
+router.get("/:locationId", getLocation);
 
 export default router;

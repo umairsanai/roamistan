@@ -114,14 +114,25 @@ export async function fetchTrendingLocations() {
     return await request(`${import.meta.env.VITE_API_URL}/locations/trending`) as LocationInfo[]; 
 }
 
-export async function fetchTourImage(tourImageId: number) {
-    return await request(`${import.meta.env.VITE_API_URL}/locations/tour-image/${tourImageId}`) as Image3D;    
+export async function fetchTourImage(tour_image_id: number) {
+    return await request(`${import.meta.env.VITE_API_URL}/locations/tour-image/${tour_image_id}`) as Image3D;    
 }
 
 export async function fetchLocationsAround() {
     return await request(`${import.meta.env.VITE_API_URL}/locations/around`) as LocationInfo[];
 }
 
+export async function bookmarkLocation(location_id: number) {
+    await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${location_id}`, {
+        method: "POST"
+    });
+}
+
+export async function deleteBookmarkedLocation(location_id: number) {
+    await request(`${import.meta.env.VITE_API_URL}/users/bookmark/${location_id}`, {
+        method: "DELETE"
+    });
+}
 
 
 
