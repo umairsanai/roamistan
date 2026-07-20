@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap">
   <link rel="stylesheet" href="../css/navbar.css">
   <link rel="stylesheet" href="../css/profile.css">
+  <link rel="stylesheet" href="../css/skeleton.css">
   <link rel="stylesheet" href="../css/error.css">
   <link rel="icon" type="image/png" href="../assets/roamistan-logo.png">
   <style>
@@ -23,27 +24,27 @@
     <aside class="left-col" style="display:flex; flex-direction:column; gap:1.5rem; width:100%;">
       <!-- Profile card -->
       <div class="profile-card">
-        <div class="avatar">
-          <img class="profile-img" src="" alt="">
+        <div class="avatar" data-skeleton-image-wrapper>
+          <img class="profile-img" src="" alt="" data-skeleton-image>
           <button class="overlay-btn" type="button">
             <span class="material-symbols-outlined" style="font-size:1rem;">photo_camera</span>
           </button>
         </div>
-        <h1 class="profile-name">Name</h1>
-        <p class="profile-email" style="color:#404a3b;">youremail@domain.com</p>
+        <h1 class="profile-name" data-skeleton-text="title"></h1>
+        <p class="profile-email" style="color:#404a3b;" data-skeleton-text="line"></p>
         <div class="divider"></div>
         <div class="stats">
           <div>
             <div class="label">Member Since</div>
-            <div class="value member-since-value"></div>
+            <div class="value member-since-value" data-skeleton-text="value"></div>
           </div>
           <div style="text-align: center;">
             <div class="label">Address</div>
-            <div class="value address-value"></div>
+            <div class="value address-value" data-skeleton-text="value"></div>
           </div>
           <div style="text-align:right;">
             <div class="label">Tours Completed</div>
-            <div class="value tours-completed-value"></div>
+            <div class="value tours-completed-value" data-skeleton-text="value"></div>
           </div>
         </div>
       </div>
@@ -64,13 +65,7 @@
         </div>
         <button class="undo-card-button" type="button">Undo</button>
       </div>
-      <div class="fav-list">
-        <div class="fav-empty-state">
-          <span class="material-symbols-outlined fav-empty-icon">bookmark</span>
-          <h3>No bookmarks yet</h3>
-          <p>Your bookmarked locations will appear here once you save them.</p>
-        </div>
-      </div>
+      <div class="fav-list"></div>
     </section>
   </main>
   <input id="profilePictureInput" type="file" accept="image/*" hidden>

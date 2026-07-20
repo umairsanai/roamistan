@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { bookmarkLocation, deleteBookmarkedLocation, fetchBookmarks, fetchMe, formatTimestampToMonthYear, goToAuthPage, goToLocationPage, request, showError } from "./helpers.js";
 import type { LocationInfo, User } from "./types.js";
+import { hydrateSkeletonImages, initializeSkeletons, bookmarkCardSkeleton, removeSkeletons, renderSkeletons, resolveTextSkeletons, revealSkeletonImage } from "./skeleton.js";
 
 const HIDE_UNDO_CARD_TIMEOUT_LIMIT = 1.5 * 1000;     // seconds
 
@@ -15,11 +16,17 @@ const overlayButton = document.querySelector(".overlay-btn") as HTMLButtonElemen
 const profilePictureInput = document.querySelector("#profilePictureInput") as HTMLInputElement | null;
 const undoCard = document.querySelector(".undo-card") as HTMLElement | null;
 
+
 try {
+    initializeSkeletons();
+    renderSkeletons(bookmarksListContainer, bookmarkCardSkeleton, 3);
     [user, bookmarks] = await Promise.all([fetchMe(), fetchBookmarks()]);
     renderProfile(user);
     renderBookmarks(bookmarks);
 } catch (error: any) {
+    removeSkeletons(bookmarksListContainer);
+    resolveTextSkeletons(document);
+    revealSkeletonImage(profileImageElement);
     showError(error.message);
     if (error.message.toLowerCase().includes("not logged in"))
         goToAuthPage();
@@ -38,12 +45,17 @@ function renderProfile(user: User) {
      
     nameElement.textContent = user.name;    
     emailElement.textContent = user.email;
-    if (user.profile_url && profileImageElement)
+    if (user.profile_url && profileImageElement) {
         profileImageElement.src = user.profile_url;
+        hydrateSkeletonImages(document);
+    } else {
+        revealSkeletonImage(profileImageElement);
+    }
     memberSinceValueElement.textContent = formatTimestampToMonthYear(user.created_at);
     addressValueElement.textContent = `${user.city}, ${user.country}`;
     toursCompletedValueElement.textContent = `${user.tours_completed} Virtual`;
 
+    resolveTextSkeletons(document);
 }
 
 async function uploadProfilePicture(file: File) {
@@ -55,8 +67,10 @@ async function uploadProfilePicture(file: File) {
         body: formData
     }) as string;
 
-    if (profileImageElement)
+    if (profileImageElement) {
         profileImageElement.src = imageUrl;
+        hydrateSkeletonImages(document);
+    }
 }
 
 async function uploadProfilePictureHandler() {
@@ -152,15 +166,24 @@ function exploreLocationHandler(e: Event) {
 }
 
 function renderBookmarks(locations: LocationInfo[]) {
-    if (!bookmarksListContainer || !locations.length) return;
+    if (!bookmarksListContainer) return;
+
+    if (!locations.length) {
+        bookmarksListContainer.innerHTML = `<div class="fav-empty-state">
+            <span class="material-symbols-outlined fav-empty-icon">bookmark</span>
+            <h3>No bookmarks yet</h3>
+            <p>Your bookmarked locations will appear here once you save them.</p>
+        </div>`;
+        return;
+    }
 
     bookmarksListContainer.innerHTML = "";
 
     locations.forEach(location => {
         bookmarksListContainer.insertAdjacentHTML("beforeend", 
         `<div class="fav-item">
-            <div class="fav-img">
-                <img src="${location.cover_image_url}" alt="${location.name}">
+            <div class="fav-img" data-skeleton-image-wrapper>
+                <img data-skeleton-image src="${location.cover_image_url}" alt="${location.name}">
             </div>
             <div class="fav-body">
             <div>
@@ -179,6 +202,8 @@ function renderBookmarks(locations: LocationInfo[]) {
             </div>
         </div>`);
     });
+
+    hydrateSkeletonImages(bookmarksListContainer);
 }
 
 overlayButton?.addEventListener("click", () => {

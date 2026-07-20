@@ -1,0 +1,298 @@
+/* Shared loading primitives used by every page. */
+.skeleton {
+  display: block;
+  color: transparent !important;
+  background: linear-gradient(100deg, #e5e2db 20%, #f6f3ec 45%, #e5e2db 70%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 120% 0; }
+  100% { background-position: -80% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
+[data-skeleton-text] {
+  position: relative;
+  color: transparent !important;
+  min-height: 1rem;
+}
+
+[data-skeleton-text]::after {
+  content: "";
+  display: block;
+  width: var(--skeleton-width, 68%);
+  height: var(--skeleton-height, 1rem);
+  border-radius: 0.35rem;
+  background: linear-gradient(100deg, #e5e2db 20%, #f6f3ec 45%, #e5e2db 70%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+}
+
+[data-skeleton-text="title"]::after { --skeleton-width: 72%; --skeleton-height: 1.5rem; }
+[data-skeleton-text="value"]::after { --skeleton-width: 76%; }
+[data-skeleton-text="line"]::after { --skeleton-width: 58%; --skeleton-height: 0.85rem; }
+
+[data-skeleton-text="paragraph"] {
+  min-height: 6rem;
+}
+
+[data-skeleton-text="paragraph"]::after {
+  width: 100%;
+  height: 0.85rem;
+  box-shadow: 0 1.45rem 0 #e5e2db, 0 2.9rem 0 #e5e2db, 0 4.35rem 0 #e5e2db;
+}
+
+/* Match page-specific typography and alignment. */
+.place-title[data-skeleton-text="title"]::after {
+  width: 22rem;
+  height: 4.5rem;
+}
+
+.rating-row .reviews[data-skeleton-text="line"] {
+  display: inline-block;
+  width: 8rem;
+}
+
+.rating-row .reviews[data-skeleton-text="line"]::after {
+  width: 100%;
+}
+
+.hero-badge .badge-value[data-skeleton-text="line"],
+.coords-text[data-skeleton-text="line"] {
+  display: inline-block;
+}
+
+.hero-badge .badge-value[data-skeleton-text="line"] {
+  width: 15rem;
+}
+
+.coords-text[data-skeleton-text="line"] {
+  width: 12.5rem;
+}
+
+.hero-badge .badge-value[data-skeleton-text="line"]::after,
+.coords-text[data-skeleton-text="line"]::after {
+  width: 100%;
+}
+
+.info-card h1[data-skeleton-text="title"]::after {
+  width: 86%;
+  height: 3rem;
+}
+
+.info-card .location-state[data-skeleton-text="line"],
+.info-card .cordinates[data-skeleton-text="line"] {
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+.info-card .location-state[data-skeleton-text="line"] {
+  width: 10rem;
+}
+
+.info-card .cordinates[data-skeleton-text="line"] {
+  width: 12rem;
+}
+
+.info-card .location-state[data-skeleton-text="line"]::after,
+.info-card .cordinates[data-skeleton-text="line"]::after {
+  width: 100%;
+}
+
+/* The viewer details sit on a blue glass card, so their shimmer should belong
+   to that surface instead of using the page-level cream skeleton color. */
+.info-card [data-skeleton-text]::after {
+  background: linear-gradient(100deg, rgba(255, 255, 255, 0.14) 20%, rgba(255, 255, 255, 0.28) 45%, rgba(255, 255, 255, 0.14) 70%);
+}
+
+.profile-card [data-skeleton-text]::after {
+  margin-inline: auto;
+}
+
+.profile-card .profile-name[data-skeleton-text="title"]::after {
+  width: 8.5rem;
+  height: 1.875rem;
+}
+
+.profile-card .profile-email[data-skeleton-text="line"]::after {
+  width: 12rem;
+}
+
+.profile-card .member-since-value[data-skeleton-text="value"]::after {
+  width: 6.5rem;
+}
+
+.profile-card .address-value[data-skeleton-text="value"]::after {
+  width: 9.25rem;
+}
+
+.profile-card .tours-completed-value[data-skeleton-text="value"]::after {
+  width: 5.75rem;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+[data-skeleton-text].skeleton-ready {
+  color: inherit !important;
+}
+
+[data-skeleton-text].skeleton-ready::after { display: none; }
+
+[data-skeleton-rating] {
+  min-height: 1.25rem;
+}
+
+[data-skeleton-rating].skeleton-ready { min-height: 0; }
+
+.skeleton-rating-star {
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+
+.skeleton-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.skeleton-icon {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  flex: 0 0 auto;
+}
+
+.skeleton-media {
+  width: 100%;
+  height: 100%;
+}
+
+.skeleton-button {
+  width: 100%;
+  height: 2.75rem;
+  border-radius: 0.5rem;
+  margin-top: auto;
+}
+
+.skeleton-card {
+  cursor: default !important;
+}
+
+.skeleton-card > .img-wrap,
+.skeleton-card > .card-img,
+.skeleton-card > .tour-card-img,
+.skeleton-card > .package-img,
+.skeleton-card > .fav-img {
+  background: #e5e2db;
+}
+
+.skeleton-card .card-body,
+.skeleton-card .package-content,
+.skeleton-card .fav-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeleton-card .card-body { gap: 0.75rem; }
+.skeleton-card .skeleton-text { border-radius: 0.35rem; }
+
+.skeleton-card-title { width: 72%; height: 1.5rem; }
+.skeleton-card-location { width: 62%; height: 0.85rem; }
+.skeleton-card-rating { margin-top: 0.15rem; }
+.skeleton-card-rating-value { width: 2.5rem; height: 0.85rem; }
+.skeleton-card-views { width: 3.5rem; height: 0.85rem; margin-left: auto; }
+
+.skeleton-search-card .card-body { gap: 0.75rem; }
+.skeleton-search-title { width: 68%; height: 2rem; }
+.skeleton-search-location { width: 62%; height: 0.75rem; }
+.skeleton-search-description { width: 100%; height: 1rem; margin-top: 0.25rem; }
+.skeleton-search-description-short { width: 82%; margin-top: -0.35rem; }
+
+.skeleton-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.skeleton-package-title { width: 72%; height: 1.2rem; }
+.skeleton-package-provider { width: 46%; height: 0.9rem; margin-top: 0.65rem; }
+.skeleton-package-price { width: 34%; height: 1rem; margin-top: 0.65rem; }
+.skeleton-package-arrow { margin-left: auto; }
+
+.skeleton-ad-title { width: 58%; height: 1.3rem; }
+.skeleton-ad-price { width: 25%; height: 1.3rem; }
+.skeleton-ad-description { width: 100%; height: 0.9rem; margin-top: 0.25rem; }
+.skeleton-ad-description-short { width: 78%; margin-top: -0.3rem; }
+
+.skeleton-bookmark-title { width: 48%; height: 1.25rem; }
+.skeleton-bookmark-description { width: 100%; height: 0.95rem; margin-top: 0.75rem; }
+.skeleton-bookmark-description-short { width: 76%; margin-top: 0.35rem; }
+.skeleton-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: auto; padding-top: 1rem; }
+.skeleton-bookmark-location { width: 38%; height: 0.85rem; }
+.skeleton-bookmark-button { width: 6.5rem; height: 2rem; margin-top: 0; }
+
+[data-skeleton-image-wrapper] {
+  position: relative;
+  background: #e5e2db;
+}
+
+[data-skeleton-image-wrapper]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: linear-gradient(100deg, #e5e2db 20%, #f6f3ec 45%, #e5e2db 70%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+[data-skeleton-image-wrapper] > img {
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+[data-skeleton-image-wrapper].is-image-loaded::before { opacity: 0; }
+[data-skeleton-image-wrapper].is-image-loaded > img { opacity: 1; }
+[data-skeleton-image-wrapper].is-image-error > img { opacity: 0; }
+
+[data-skeleton-panorama] {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  background: linear-gradient(100deg, #3b4038 20%, #52594d 45%, #3b4038 70%);
+  background-size: 220% 100%;
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+[data-skeleton-panorama].skeleton-ready { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-skeleton-text]::after,
+  [data-skeleton-image-wrapper]::before,
+  [data-skeleton-panorama] { animation: none; }
+}
+
+@media (max-width: 768px) {
+  .place-title[data-skeleton-text="title"]::after {
+    height: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .place-title[data-skeleton-text="title"]::after {
+    height: 2.5rem;
+  }
+}

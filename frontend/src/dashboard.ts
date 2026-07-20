@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { fetchBookmarks, fetchLocationsAround, fetchMe, fetchTrendingLocations, goToAuthPage, goToLocationPage, goToProfilePage, greetUser, showError } from "./helpers.js";
 import { type LocationInfo } from "./types.js";
+import { hydrateSkeletonImages, initializeSkeletons, locationCardSkeleton, removeSkeletons, renderSkeletons } from "./skeleton.js";
 
 
 let user;
@@ -8,30 +9,53 @@ let bookmarks: LocationInfo[];
 let trendingLocations: LocationInfo[];
 let locationsAround: LocationInfo[];
 
+const bookmarksContainer = document.querySelector(".favorites-scroll");
+const locationsAroundContainer = document.querySelector(".locations-grid");
+const trendingLocationsContainer = document.querySelector(".trending-grid");
+
+
 try {
+    initializeSkeletons();
+    renderSkeletons(bookmarksContainer, () => locationCardSkeleton(false), 3);
+    renderSkeletons(locationsAroundContainer, () => locationCardSkeleton(true), 3);
+    renderSkeletons(trendingLocationsContainer, () => locationCardSkeleton(true), 3);
+
     [user, bookmarks, trendingLocations, locationsAround] = await Promise.all([fetchMe(), fetchBookmarks(), fetchTrendingLocations(), fetchLocationsAround()]);
     greetUser(user.name.split(" ")[0]);
     renderBookmarks(bookmarks);
     renderLocationsAround(locationsAround);
     renderTrendingLocations(trendingLocations);
 } catch (error: any) {
+    [bookmarksContainer, locationsAroundContainer, trendingLocationsContainer].forEach(removeSkeletons);
     showError(error.message);
     if (error.message.toLowerCase().includes("not logged in"))
         goToAuthPage();
 }
 
+function emptyState(icon: string, title: string, description: string) {
+    return `<div class="empty-state-card">
+        <span class="material-symbols-outlined empty-state-icon">${icon}</span>
+        <h3>${title}</h3>
+        <p>${description}</p>
+    </div>`;
+}
+
 
 function renderBookmarks(locations: LocationInfo[]) {
-    const bookmarksContainer = document.querySelector(".favorites-scroll");
-    if (!bookmarksContainer || !locations.length) return;
+    if (!bookmarksContainer) return;
+
+    if (!locations.length) {
+        bookmarksContainer.innerHTML = emptyState("bookmark", "No bookmarks yet", "Saved places will appear here once you add them.");
+        return;
+    }
 
     bookmarksContainer.innerHTML = "";
 
     locations.forEach(location => {
         bookmarksContainer.insertAdjacentHTML("beforeend", 
         `<div class="fav-card">
-            <div class="img-wrap">
-                <img data-alt="${location.name}" src="${location.cover_image_url}">
+            <div class="img-wrap" data-skeleton-image-wrapper>
+                <img data-alt="${location.name}" data-skeleton-image src="${location.cover_image_url}">
                 <div class="fav-badge"><span class="material-symbols-outlined">favorite</span></div>
             </div>
             <div class="card-body">
@@ -41,18 +65,24 @@ function renderBookmarks(locations: LocationInfo[]) {
             </div>
         </div>`);
     });
+
+    hydrateSkeletonImages(bookmarksContainer);
 }
 
 function renderLocationsAround(locations: LocationInfo[]) {
-    const locationsAroundContainer = document.querySelector(".locations-grid");    
-    if (!locationsAroundContainer || !locations.length) return;
+    if (!locationsAroundContainer) return;
+
+    if (!locations.length) {
+        locationsAroundContainer.innerHTML = emptyState("travel_explore", "No Locations Found", "Locations around you will show up here when they are available.");
+        return;
+    }
 
     locationsAroundContainer.innerHTML = "";
     locations.forEach(location => {
         locationsAroundContainer.insertAdjacentHTML("beforeend", 
         `<div class="fav-card">
-            <div class="img-wrap">
-                <img data-alt="${location.name}" src="${location.cover_image_url}">
+            <div class="img-wrap" data-skeleton-image-wrapper>
+                <img data-alt="${location.name}" data-skeleton-image src="${location.cover_image_url}">
             </div>
             <div class="card-body">
                 <h3 class="font-headline-sm text-on-surface">${location.name}</h3>
@@ -65,18 +95,24 @@ function renderLocationsAround(locations: LocationInfo[]) {
             </div>
         </div>`);
     });
+
+    hydrateSkeletonImages(locationsAroundContainer);
 }
 
 function renderTrendingLocations(locations: LocationInfo[]) {
-    const trendingLocationsContainer = document.querySelector(".trending-grid");    
-    if (!trendingLocationsContainer || !locations.length) return;
+    if (!trendingLocationsContainer) return;
+
+    if (!locations.length) {
+        trendingLocationsContainer.innerHTML = emptyState("local_fire_department", "No Locations Found", "Trending destinations will appear here when the feed is ready.");
+        return;
+    }
 
     trendingLocationsContainer.innerHTML = "";
     locations.forEach((location, i) => {
         trendingLocationsContainer.insertAdjacentHTML("beforeend", 
         `<div class="fav-card">
-            <div class="img-wrap">
-                <img data-alt="${location.name}" src="${location.cover_image_url}">
+            <div class="img-wrap" data-skeleton-image-wrapper>
+                <img data-alt="${location.name}" data-skeleton-image src="${location.cover_image_url}">
                 <div class="trend-badge">Trending #${i+1}</div>
             </div>
             <div class="card-body">
@@ -90,6 +126,8 @@ function renderTrendingLocations(locations: LocationInfo[]) {
             </div>
         </div>`);
     });
+
+    hydrateSkeletonImages(trendingLocationsContainer);
 }
 
 

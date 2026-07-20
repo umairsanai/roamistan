@@ -1,10 +1,12 @@
 /// <reference types="vite/client" />
 import { fetchAds, fetchLocation, fetchTourImage, formatCordinates, formatPrice, goToAuthPage, showError } from "./helpers.js";
 import type { Ad, Image3D, LocationInfo } from "./types.ts"
+import { hydrateSkeletonImages, initializeSkeletons, adCardSkeleton, removeSkeletons, renderSkeletons, resolveSkeletons, resolveTextSkeletons } from "./skeleton.js";
 import "pannellum";
 
 const viewerContentContainer = document.querySelector(".viewer-content");
 const notFoundCard = document.querySelector(".not-found-card");
+const adCardsContainer = document.querySelector(".cards-container");
 
 
 let location: LocationInfo | null;
@@ -16,6 +18,8 @@ let ads: Ad[] | null;
 
 try {
 
+    initializeSkeletons();
+    renderSkeletons(adCardsContainer, adCardSkeleton, 3);
     [location, ads] = await Promise.all([fetchLocation(location_id), fetchAds(location_id)]); 
     renderLocationDetails()
     renderAds();    
@@ -23,6 +27,7 @@ try {
         throw new Error("No Location Found!");
 
 } catch (error: any) {
+    removeSkeletons(adCardsContainer);
     [viewerContentContainer, notFoundCard].forEach(el => el?.classList.toggle("hidden"));
     showError(error.message);
     if (error.message.toLowerCase().includes("not logged in"))
@@ -35,23 +40,31 @@ async function renderLocationDetails() {
 
     const locationNameElement = document.querySelector(".location-name") as HTMLElement;
     const locationStateElement = document.querySelector(".location-state") as HTMLElement;
-    const cordinatesElement = document.querySelector(".coord-badge") as HTMLElement;
+    const cordinatesElement = document.querySelector(".cordinates") as HTMLElement;
 
     if (location.tour_image_id)
         tourImage = await fetchTourImage(location.tour_image_id);
 
-    if (tourImage)
-        await showTourImage(tourImage);
-
     locationNameElement.textContent = location.name;
     locationStateElement.textContent = location.address;
     cordinatesElement.textContent = formatCordinates(Number(location.coordinate_x), Number(location.coordinate_y))
+
+    resolveTextSkeletons(viewerContentContainer ?? document);
+
+    if (tourImage) {
+        await showTourImage(tourImage);
+    } else {
+        resolveSkeletons(viewerContentContainer ?? document);
+    }
 }
 
 function renderAds() {
-    const adCardsContainer = document.querySelector(".cards-container");
+    if (!adCardsContainer) return;
 
-    if (!adCardsContainer || !ads || !ads.length) return;
+    if (!ads?.length) {
+        adCardsContainer.innerHTML = "";
+        return;
+    }
 
     adCardsContainer.innerHTML = "";
     adCardsContainer.addEventListener("click", (e: Event) => {
@@ -67,8 +80,8 @@ function renderAds() {
     ads.forEach(ad => {
         adCardsContainer.insertAdjacentHTML("beforeend", 
         `<div class="tour-card">
-            <div class="tour-card-img">
-                <img src="${ad.image_url}" alt="${ad.title}">
+            <div class="tour-card-img" data-skeleton-image-wrapper>
+                <img data-skeleton-image src="${ad.image_url}" alt="${ad.title}">
                 <div class="sponsor-tag"><span class="material-symbols-outlined">star</span>${ad.ad_category}</div>
             </div>
             <div class="card-body">
@@ -87,9 +100,19 @@ function renderAds() {
             </div>
         </div>`);
     });
+
+    hydrateSkeletonImages(adCardsContainer);
 }
 
 async function showTourImage(tourImage: Image3D) {
+    await new Promise<void>(resolve => {
+        const image = new Image();
+        image.onload = () => resolve();
+        image.onerror = () => resolve();
+        image.src = tourImage.image_url;
+        if (image.complete) resolve();
+    });
+
     viewer = pannellum.viewer("panorama-bg", {
         type: "equirectangular",
         panorama: tourImage.image_url,
@@ -98,6 +121,8 @@ async function showTourImage(tourImage: Image3D) {
         showZoomCtrl: false,
         showControls: false,
     });
+
+    resolveSkeletons(viewerContentContainer ?? document);
 }
 
 document.querySelector(".fullscreen-btn")?.addEventListener("click", async () => {

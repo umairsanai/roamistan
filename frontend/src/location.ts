@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 import { bookmarkLocation, deleteBookmarkedLocation, fetchAds, fetchLocation, formatCordinates, formatPrice, formatRating, goToAuthPage, goToViewPage, request, showError } from "./helpers.js";
 import type { Ad, LocationInfo, User } from "./types.js";
+import { hydrateSkeletonImages, initializeSkeletons, packageCardSkeleton, removeSkeletons, renderSkeletons, resolveSkeletons } from "./skeleton.js";
 
 const startTourButton = document.querySelector(".tour-btn");
 const adsListContainer = document.querySelector(".packages-grid");
@@ -16,13 +17,16 @@ let ads: Ad[] | null;
 
 try {
 
-    [location, ads] = await Promise.all([fetchLocation(location_id), fetchAds(location_id)]); 
+    initializeSkeletons();
+    renderSkeletons(adsListContainer, packageCardSkeleton, 3);
+    [location, ads] = await Promise.all([fetchLocation(location_id), fetchAds(location_id)]);
     renderLocation();
     renderAds();
     if (!location) 
         throw new Error("No Location Found!");    
 
 } catch (error: any) {
+    removeSkeletons(adsListContainer);
     [locationContentContainer, notFoundCard].forEach(el => el?.classList.toggle("hidden"));
     showError(error.message);
     if (error.message.toLowerCase().includes("not logged in"))
@@ -50,6 +54,7 @@ function renderLocation() {
     const imageElement = document.querySelector(".hero-img") as HTMLImageElement;
     const rating = Number(location.rating);
     
+    starsContainer.innerHTML = "";
     for (let i = 1; i <= 5; i++) {
         let starType = "star_outline";
 
@@ -67,17 +72,25 @@ function renderLocation() {
     reviewsElement.textContent = `${formatRating(rating)} (${location.reviews_count} Reviews)`;
     cordinatesElement.textContent = formatCordinates(Number(location.coordinate_x), Number(location.coordinate_y));
     stateElement.textContent = location.address;
+
+    resolveSkeletons(locationContentContainer ?? document);
+    hydrateSkeletonImages(locationContentContainer ?? document);
 }
 
 function renderAds() {
-    if (!adsListContainer || !ads || !ads.length) return;
+    if (!adsListContainer) return;
+
+    if (!ads?.length) {
+        adsListContainer.innerHTML = "";
+        return;
+    }
 
     adsListContainer.innerHTML = "";
     ads.forEach((ad) => {
         adsListContainer.insertAdjacentHTML("beforeend", 
         `<div data-redirect-url=${ad.redirect_url} class="package-card">
-            <div class="package-img">
-              <img src="${ad.image_url}" alt="${ad.title}">
+            <div class="package-img" data-skeleton-image-wrapper>
+              <img data-skeleton-image src="${ad.image_url}" alt="${ad.title}">
             </div>
             <div class="package-content">
               <h4>${ad.title}</h4>
@@ -87,6 +100,8 @@ function renderAds() {
             <span class="material-symbols-outlined package-arrow">arrow_forward_ios</span>
         </div>`
     )});
+
+    hydrateSkeletonImages(adsListContainer);
 }
 
 

@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://cdn.pannellum.org/2.5/pannellum.css"/>
   <link rel="stylesheet" href="../css/navbar.css">
   <link rel="stylesheet" href="../css/view.css">
+  <link rel="stylesheet" href="../css/skeleton.css">
   <link rel="stylesheet" href="../css/location-not-found.css">
   <link rel="stylesheet" href="../css/error.css">
   <link rel="icon" type="image/png" href="../assets/roamistan-logo.png">
@@ -23,6 +24,7 @@
       <div class="main-viewer">
         <!-- panorama -->
         <section class="panorama-wrap">
+          <div data-skeleton-panorama></div>
           <div id="panorama-bg" class="panorama-bg"></div>
           <div id="panorama-overlay" class="panorama-overlay"></div>
 
@@ -34,13 +36,15 @@
 
           <!-- info card -->
           <div class="info-card">
-            <h1 class="location-name"></h1>
+            <h1 class="location-name" data-skeleton-text="title"></h1>
             <div class="sub-loc">
               <span class="material-symbols-outlined">location_on</span>
-              <span class="location-state"></span>
+              <span class="location-state" data-skeleton-text="line"></span>
             </div>
             <div class="coord-badge">
-              <span class="material-symbols-outlined">my_location</span></div>
+              <span class="material-symbols-outlined">my_location</span>
+              <span class="cordinates" data-skeleton-text="line"></span>
+            </div>
           </div>
 
           <!-- right controls -->

@@ -1,16 +1,20 @@
 /// <reference types="vite/client" />
 import { fetchSearchedLocations, goToAuthPage, goToLocationPage, showError, updateSearchPageURL } from "./helpers.js";
 import { LocationInfo } from "./types.js";
+import { hydrateSkeletonImages, initializeSkeletons, removeSkeletons, renderSkeletons, searchCardSkeleton } from "./skeleton.js";
 
 const paginationContainer = document.querySelector(".pagination");
 const searchContentContainer = document.querySelector(".search-content");
 const notFoundCard = document.querySelector(".not-found-card");
+const locationsGridContainer = document.querySelector(".card-grid");
 
 let total_pages: number;
 let searchedLocations: LocationInfo[] | null;
 
+
 if (window.location.pathname.includes("search")) {
-    await fetchAndRenderLocations();
+    initializeSkeletons();
+    fetchAndRenderLocations();
 }
 
 function startButtonLocationCardHandler(e: Event) {
@@ -29,15 +33,14 @@ function startButtonLocationCardHandler(e: Event) {
 
 function renderLocations(locations: LocationInfo[]) {
 
-    const locationsGridContainer = document.querySelector(".card-grid");
     if (!locationsGridContainer) return;
 
     locationsGridContainer.innerHTML = "";
     locations.forEach(location => {
         locationsGridContainer.insertAdjacentHTML("beforeend", `
         <article class="card">
-            <div class="card-img">
-                <img src="${location.cover_image_url}" alt="${location.name}">
+            <div class="card-img" data-skeleton-image-wrapper>
+                <img data-skeleton-image src="${location.cover_image_url}" alt="${location.name}">
                 <div class="card-badge"><span class="material-symbols-outlined">star</span><span>${location.rating}</span></div>
             </div>
             <div class="card-body">
@@ -48,6 +51,8 @@ function renderLocations(locations: LocationInfo[]) {
             </div>
         </article>`);
     });
+
+    hydrateSkeletonImages(locationsGridContainer);
 }
 
 function renderPagination(current_page: number) {
@@ -96,6 +101,10 @@ function renderPagination(current_page: number) {
 
 
 export async function fetchAndRenderLocations() {
+    searchContentContainer?.classList.remove("hidden");
+    notFoundCard?.classList.add("hidden");
+    renderSkeletons(locationsGridContainer, searchCardSkeleton, 3);
+
     try {
         const params = new URLSearchParams(window.location.search);
         const page  = params.get('page') ? Number(params.get('page')) : 1
@@ -106,10 +115,13 @@ export async function fetchAndRenderLocations() {
             renderLocations(searchedLocations);
             renderPagination(page);
         } else {
-            searchContentContainer?.classList.add("hidden");
-            notFoundCard?.classList.remove("hidden");
+            if (locationsGridContainer) {
+                locationsGridContainer.innerHTML = "";
+            }
+            [searchContentContainer, notFoundCard].forEach(el => el?.classList.toggle("hidden"));
         }
     } catch (error: any) {
+        removeSkeletons(locationsGridContainer);
         showError(error.message);
         if (error.message.toLowerCase().includes("not logged in"))
             goToAuthPage();

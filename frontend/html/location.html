@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600&family=Montserrat:wght@600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/navbar.css">
   <link rel="stylesheet" href="../css/location.css">
+  <link rel="stylesheet" href="../css/skeleton.css">
   <link rel="stylesheet" href="../css/location-not-found.css">
   <link rel="stylesheet" href="../css/error.css">
   <link rel="icon" type="image/png" href="../assets/roamistan-logo.png">
@@ -20,15 +21,15 @@
       <main class="main-grid">
         <!-- Left column: Hero image -->
         <div class="hero-col">
-          <div class="hero-image-wrapper">
-            <img src="" alt="" class="hero-img">
+          <div class="hero-image-wrapper" data-skeleton-image-wrapper>
+            <img src="" alt="" class="hero-img" data-skeleton-image>
             <!-- gradient overlay -->
             <div class="hero-overlay-gradient"></div>
             <!-- glass badge -->
             <div class="hero-badge">
               <span class="material-symbols-outlined badge-icon">location_on</span>
               <div>
-                <p class="badge-value"></p>
+                <p class="badge-value" data-skeleton-text="line"></p>
               </div>
             </div>
           </div>
@@ -39,10 +40,10 @@
           <!-- Header -->
           <div class="details-header">
             <div>
-              <h1 class="place-title"></h1>
+              <h1 class="place-title" data-skeleton-text="title"></h1>
               <div class="rating-row">
-                <span class="stars"></span>
-                <span class="reviews"></span>
+                <span class="stars" data-skeleton-rating></span>
+                <span class="reviews" data-skeleton-text="line"></span>
               </div>
             </div>
             <button class="bookmark-btn" aria-label="Bookmark">
@@ -51,12 +52,12 @@
           </div>
 
           <!-- Description -->
-          <p class="description"></p>
+          <p class="description" data-skeleton-text="paragraph"></p>
 
           <!-- Coordinates -->
           <div class="coords-box">
             <span class="material-symbols-outlined coords-icon">explore</span>
-            <span class="coords-text"></span>
+            <span class="coords-text" data-skeleton-text="line"></span>
           </div>
 
           <!-- Primary action -->
