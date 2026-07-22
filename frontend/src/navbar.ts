@@ -171,7 +171,7 @@ navigationSeachBar?.addEventListener("keyup", async (e: KeyboardEvent) => {
             }
         }, SEARCH_DELAY);
     } else {
-        if (window.location.href.includes("search")) {
+        if (window.location.pathname.includes("search")) {
             hideSearchResult();
             updateSearchPageURL(1, query);
             await fetchAndRenderLocations();

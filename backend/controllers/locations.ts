@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError, handleAsyncError } from "../error.js";
 import pool from "../database.js";
-import { buildSearchPatterns, sendEmptySuccessResponse, isInteger, isString } from './helpers.js';
+import { buildSearchPatterns, isInteger, isString } from './helpers.js';
 
 
 export const getTrendingLocations = handleAsyncError(async (req: Request, res: Response, next: NextFunction) => {

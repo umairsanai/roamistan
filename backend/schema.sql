@@ -11,7 +11,9 @@ CREATE TABLE users (
     password_changed_at BIGINT NOT NULL DEFAULT 0 CHECK(password_changed_at >= 0),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     tours_completed INT NOT NULL DEFAULT 0 CHECK(tours_completed >= 0),
-    profile_url VARCHAR(300) DEFAULT 'https://res.cloudinary.com/dfue7z6ls/image/upload/v1784271684/yxaj4jovl8qwo0cohxe2.svg'
+    profile_url VARCHAR(300) DEFAULT 'https://res.cloudinary.com/dfue7z6ls/image/upload/v1784271684/yxaj4jovl8qwo0cohxe2.svg',
+    reset_password_token VARCHAR(100),
+    reset_password_expiry TIMESTAMP
 );
 
 

@@ -4,7 +4,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import { Request, Response, NextFunction } from 'express';
 import pool from "../database.js";
 import { AppError, handleAsyncError } from "../error.js";
-import { isInteger, sendEmptySuccessResponse } from './helpers.js';
+import { isInteger, isString, sendEmptySuccessResponse } from './helpers.js';
+import Validator from "validator"
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -97,12 +98,20 @@ export const deleteBookmarkLocation = async (req: Request, res: Response, next: 
     sendEmptySuccessResponse(res);
 }
 
-// async function fetchUser(user: Express.User) { 
-//     return { 
-//         ...user,
-//         bookmarks: await fetchBookmarkedLocations(user?.user_id!)
-//     };
-// }
+export const editProfile = async (req: Request, res: Response, next: NextFunction) => {    
+    const { name } = req.body;
+    
+    if (name && !isString(name)) 
+        return next(new AppError("Incompatible Data to update with!", 400));
+    
+    if (name)
+        req.user!.name = (await pool.query(`UPDATE users SET name=$2 WHERE user_id=$1 RETURNING name`, [req.user?.user_id, name])).rows[0].name;
+
+    res.status(200).json({
+        status: "success",
+        data: req.user!
+    });
+}
 
 async function fetchBookmarkedLocations(user_id: number) {
     return (await pool.query("SELECT loc.location_id, name, address, cover_image_url, tour_image_id, coordinate_x, coordinate_y, loc.rating, total_views AS views, COALESCE(COUNT(rev.location_id), 0)::INT AS reviews_count, loc.description, 1 AS is_bookmarked FROM bookmarks book INNER JOIN locations loc ON loc.location_id = book.location_id LEFT JOIN reviews rev ON rev.location_id = loc.location_id WHERE book.user_id=$1 GROUP BY loc.location_id, name, address, cover_image_url, tour_image_id, coordinate_x, coordinate_y, loc.rating, total_views, loc.description ORDER BY location_id DESC", [user_id])).rows;

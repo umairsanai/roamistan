@@ -6,7 +6,7 @@ export const monthNames = ['January', 'February', 'March', 'April', 'May', 'June
 export function greetUser(name: string) {
     const element = document.querySelector(".hero")?.querySelector("h1");
     if (!element) return;
-    element.textContent = `Welcome back, ${name}`;
+    element.textContent = `Welcome Back, ${name}`;
 }
 
 export function updateSearchPageURL(page: number, query: string) {

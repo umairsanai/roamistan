@@ -1,6 +1,6 @@
 import express from "express";
 import passport from "passport";
-import { authenticateUserAfterOAuth, login, logout, protect, signup } from "../controllers/auth.js";
+import { authenticateUserAfterOAuth, forgotPassword, login, logout, protect, resetPassword, signup } from "../controllers/auth.js";
 
 const router = express.Router();
 
@@ -16,5 +16,9 @@ router.get("/google/verify", passport.authenticate('google', {
     failureRedirect: '/dashboard.html', 
     session: false 
 }), authenticateUserAfterOAuth);
+
+// authRouter
+router.post("/forgot-password", forgotPassword);
+router.patch("/reset-password", resetPassword);
 
 export default router;

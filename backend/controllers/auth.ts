@@ -7,7 +7,11 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { LoginRequestBody, SignupRequestBody } from "../types.js";
 import Validator from "validator";
-import { sendEmptySuccessResponse } from "./helpers.js";
+import { isString, sendEmptySuccessResponse, sendPasswordResetEmail } from "./helpers.js";
+import { randomBytes, createHash } from 'crypto';
+
+const createPassowordResetToken = () => randomBytes(32).toString('hex');
+const hashPassowordResetToken = (input: string) => createHash('sha256').update(input).digest('hex');
 
 const signJwtToken = (email: string) => {
     return jwt.sign({ email }, process.env.JWT_SIGN_SECRET as string, {
@@ -86,7 +90,6 @@ export const signup = handleAsyncError(async (req: Request, res: Response, next:
     await pool.query("INSERT INTO users (name, email, city, country, password) VALUES ($1, $2, $3, $4, $5)", [name.trim(), email.trim(), city.trim(), country.trim(), password]);
 
     signTokenAndSetInCookie(email, res, "roamistan-login-token");
-
     sendEmptySuccessResponse(res, 201);
 });
 
@@ -139,7 +142,49 @@ export const authenticateUserAfterOAuth = handleAsyncError(async (req: Request, 
     res.redirect(`${process.env.FRONTEND_URL}/dashboard.html`);
 });
 
+export const forgotPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const { email } = req.body;
+    if (!email)
+        return next(new AppError("Please provide the email to reset password for!", 400));
 
+    const user = (await pool.query("SELECT user_id FROM users WHERE email=$1", [email])).rows[0];
+
+    if (!user) 
+        return sendEmptySuccessResponse(res);
+
+    const token = createPassowordResetToken();
+    const hashedToken = hashPassowordResetToken(token);
+
+    await pool.query("UPDATE users SET reset_password_token=$2, reset_password_expiry = CURRENT_TIMESTAMP + INTERVAL '30 minutes' WHERE email=$1", [email, hashedToken]);
+    
+    try {
+        await sendPasswordResetEmail(email, token);
+    } catch (error) {
+        await pool.query("UPDATE users SET reset_password_token = NULL, reset_password_expiry = NULL WHERE user_id=$1", [req.user?.user_id]);
+        throw new AppError(`Email could not be sent to ${email}`, 500);
+    }
+
+    sendEmptySuccessResponse(res);
+};
+
+export const resetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    const { token, password } = req.body;
+
+    if (!token || !isString(token))
+        return next(new AppError("Reset token is required", 400));
+
+    if (!password || !isString(password))
+        return next(new AppError("Please provide the password as the String", 400));
+
+    const hashedToken = hashPassowordResetToken(token);
+    const hashedPassword = await hashPassword(password);
+    const user: {email: string} | null = (await pool.query("UPDATE users SET password = $2, reset_password_token = NULL, reset_password_expiry = NULL WHERE reset_password_token = $1 AND reset_password_expiry >= CURRENT_TIMESTAMP RETURNING email", [hashedToken, hashedPassword])).rows[0];
+
+    if (user)
+        signTokenAndSetInCookie(user.email, res, "roamistan-login-token");
+
+    sendEmptySuccessResponse(res);
+};
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
     const cookieOptions: CookieOptions = {

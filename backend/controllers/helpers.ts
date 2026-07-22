@@ -1,6 +1,17 @@
 import { NextFunction, Request, Response } from "express";
+import nodemailer from 'nodemailer';
 import { Server } from "node:http";
 import { Pool } from "pg";
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+    },
+});
 
 export const MILLISECONDS_IN_A_DAY = 24 * 60 * 60 * 1000;
 
@@ -79,5 +90,20 @@ export function sendEmptySuccessResponse(res: Response, statusCode: number = 200
     return res.status(statusCode).json({
         status: "success",
         data: null
+    });
+}
+
+export async function sendPasswordResetEmail(to: string, token: string) {
+
+    // PRODUCTION_LINK
+    const resetLink = `${process.env.FRONTEND_URL}/auth.html?token=${token}`;
+
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0}.container{max-width:600px;margin:40px auto;background:#fff;padding:40px;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.1)}.header{text-align:center;padding-bottom:20px;border-bottom:2px solid #f0f0f0}.header h1{color:#333;font-size:24px;margin:0}.content{padding:30px 0;color:#555;line-height:1.6}.content p{margin:15px 0}.button-container{text-align:center;margin:30px 0}.reset-button{display:inline-block;background:#4CAF50;color:#fff!important;padding:14px 40px;font-size:16px;font-weight:bold;text-decoration:none;border-radius:6px;transition:background 0.3s}.reset-button:hover{background:#45a049}.footer{text-align:center;padding-top:20px;border-top:2px solid #f0f0f0;color:#999;font-size:12px}.footer a{color:#4CAF50;text-decoration:none}.expiry-note{background:#f9f9f9;padding:12px;border-radius:4px;font-size:14px;color:#666;text-align:center}</style></head><body><div class="container"><div class="header"><h1>🔐 Password Reset</h1></div><div class="content"><p>Hello,</p><p>We received a request to reset your password. Click the button below to create a new password:</p><div class="button-container"><a href="${resetLink}" class="reset-button">Reset Password</a></div><p>If the button doesn't work, copy and paste this link into your browser:</p><p style="word-break:break-all;background:#f9f9f9;padding:10px;border-radius:4px;font-size:13px;color:#4CAF50;">${resetLink}</p><div class="expiry-note">⏰ This password reset link will expire in <strong>30 minutes</strong></div></div><div class="footer"><p>If you didn't request this, please ignore this email or contact support.</p><p>&copy; ${new Date().getFullYear()} Roamistan. All rights reserved.</p></div></div></body></html>`;
+
+    await transporter.sendMail({
+        from: `Admin: <${process.env.EMAIL_USER}>`,
+        to,
+        subject: 'Password Reset - Roamistan',
+        html,
     });
 }
