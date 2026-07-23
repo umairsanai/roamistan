@@ -159,8 +159,8 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
     
     try {
         await sendPasswordResetEmail(email, token);
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        console.error('Full error:', error.response?.body);
         await pool.query("UPDATE users SET reset_password_token = NULL, reset_password_expiry = NULL WHERE user_id=$1", [req.user?.user_id]);
         throw new AppError(`Email could not be sent to ${email}`, 500);
     }
