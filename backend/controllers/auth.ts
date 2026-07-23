@@ -160,6 +160,7 @@ export const forgotPassword = async (req: Request, res: Response, next: NextFunc
     try {
         await sendPasswordResetEmail(email, token);
     } catch (error) {
+        console.error(error);
         await pool.query("UPDATE users SET reset_password_token = NULL, reset_password_expiry = NULL WHERE user_id=$1", [req.user?.user_id]);
         throw new AppError(`Email could not be sent to ${email}`, 500);
     }
@@ -178,7 +179,7 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
 
     const hashedToken = hashPassowordResetToken(token);
     const hashedPassword = await hashPassword(password);
-    const user: {email: string} | null = (await pool.query("UPDATE users SET password = $2, reset_password_token = NULL, reset_password_expiry = NULL WHERE reset_password_token = $1 AND reset_password_expiry >= CURRENT_TIMESTAMP RETURNING email", [hashedToken, hashedPassword])).rows[0];
+    const user: { email: string } | null = (await pool.query("UPDATE users SET password = $2, reset_password_token = NULL, reset_password_expiry = NULL WHERE reset_password_token = $1 AND reset_password_expiry >= CURRENT_TIMESTAMP RETURNING email", [hashedToken, hashedPassword])).rows[0];
 
     if (user)
         signTokenAndSetInCookie(user.email, res, "roamistan-login-token");
